@@ -3,11 +3,13 @@ package com.example.risingtest.src.login
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityLoginBinding
-import com.example.risingtest.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 data class AdArrayList(val mention: Int, val mention_detail : String, val img: Int)
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
@@ -29,6 +31,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 
         // 뷰페이저 설정
         setViewPager()
+
+        // 다른 로그인 이용 bottomSheet
+        bottomSheet()
 
         // 뷰페이저 넘기는 쓰레드
         val thread = Thread(PagerRunnable())
@@ -77,6 +82,36 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
             }
         })
     }
+
+    fun bottomSheet(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.fragment_login_bottom_sheet, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        binding.tvLoginOther.setOnClickListener {
+            Log.d("dho","dho")
+            val bottomDialogFragment = OtherLoginBottomSheetDialog()
+            bottomDialogFragment.show(supportFragmentManager,"selectBottomView")
+        }
+
+//        findViewById<TextView>(R.id.tv_login_other).setOnClickListener {
+//            bottomSheetDialog.show()
+//        }
+    }
+
+//    fun showbottomSheet() {
+//        binding.tvLoginOther.setOnClickListener {
+//            val bottomDialogFragment = OtherLoginBottomSheetFragment {
+//                when(it) {
+//                    1 -> {
+//                        val intent = Intent(this, PhoneLoginActivity::class.java)
+//                        startActivity(intent)
+//                        finish()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     inner class PagerRunnable : Runnable {
         override fun run() {

@@ -16,4 +16,6 @@
     <!--    번개장터 색-->
     <color name="light_gray">#A1A1A1</color>
     <color name="light_light_gray">#D4D2DE</color>
+    <color name="bunjang_color">#C70011</color>
+    <color name="gray_line">#EBEBEB</color>
 </resources>
