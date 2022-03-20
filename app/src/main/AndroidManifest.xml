@@ -20,9 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".src.MainActivity"/>
+        <activity android:name=".src.MainActivity">
+        </activity>
         <activity android:name=".src.login.LoginActivity"/>
-        <activity android:name=".src.login.PhoneLoginActivity"/>
+        <activity android:name=".src.login.PhoneLoginActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".src.passwd.PasswordActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

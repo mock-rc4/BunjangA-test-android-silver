@@ -31,7 +31,9 @@ class OtherLoginBottomSheetDialog : BottomSheetDialogFragment() {
             activity?.let {
                 var intent = Intent(context, PhoneLoginActivity::class.java)
                 startActivity(intent)
+                dialog?.dismiss()
             }
+
         }
 
 
