@@ -1,5 +1,6 @@
 package com.example.risingtest.src.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityLoginBinding
+import com.example.risingtest.src.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 data class AdArrayList(val mention: Int, val mention_detail : String, val img: Int)
@@ -38,6 +40,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         // 뷰페이저 넘기는 쓰레드
         val thread = Thread(PagerRunnable())
         thread.start()
+
+        binding.clKakaoLogin.setOnClickListener {
+            var intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
     }
 
