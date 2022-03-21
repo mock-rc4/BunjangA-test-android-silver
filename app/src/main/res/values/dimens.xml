@@ -10,6 +10,7 @@
     <dimen name="activity_margin">10dp</dimen>
     <dimen name="activity_little_margin">20dp</dimen>
     <dimen name="activity_more_margin">30dp</dimen>
+    <dimen name="activity_large_margin">40dp</dimen>
     <dimen name="activity_start_padding">20dp</dimen>
     <dimen name="activity_end_padding">20dp</dimen>
 </resources>
