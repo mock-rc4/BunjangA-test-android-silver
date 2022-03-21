@@ -28,6 +28,11 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
         dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
         dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
         dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
 
     }
 
@@ -38,5 +43,12 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
         binding.rvRecommendList.layoutManager = GridLayoutManager(context, 2)
         binding.rvRecommendList.addItemDecoration(ItemDecoration(this.requireActivity()))
 
+    }
+
+    fun newInstant() : RecommendFragment{
+        val args = Bundle()
+        val frag = RecommendFragment()
+        frag.arguments=args
+        return frag
     }
 }

@@ -43,7 +43,7 @@ class ItemDecoration(context: Context) : ItemDecoration() {
         //상하 설정
         if (position == 0 || position == 1) {
             // 첫번 째 줄 아이템
-            outRect.top = size10
+            outRect.top = size20
             outRect.bottom = size10
         } else {
             outRect.top = size20

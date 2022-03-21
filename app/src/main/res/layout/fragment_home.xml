@@ -81,10 +81,17 @@
                         android:id="@+id/hsv_home_table"
                         android:scrollbarSize="5dp"
                         android:layout_width="match_parent"
+                        android:scrollbarFadeDuration = "0"
+                        android:fastScrollEnabled="true"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbVertical="@drawable/shape_scroll_bar_thumbs"
+                        android:scrollbarTrackVertical="@drawable/shape_scroll_bar_track"
+                        android:scrollbarAlwaysDrawVerticalTrack="true"
+                        android:scrollbarDefaultDelayBeforeFade="500000"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginHorizontal="@dimen/activity_horizontal_more_margin"
+                        android:paddingHorizontal="@dimen/activity_more_margin"
                         android:layout_marginVertical="@dimen/activity_margin"
                         android:layout_height="wrap_content">
                         <TableLayout
@@ -208,21 +215,22 @@
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_marginStart="@dimen/activity_more_margin"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="match_parent">
                                     <ImageView
                                         android:id="@+id/iv_invite_friend"
-                                        android:layout_width="40dp"
+                                        android:layout_width="25dp"
                                         android:layout_height="40dp"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
-                                        android:src="@drawable/ic_home_table_zzim"/>
+                                        android:src="@drawable/ic_home_table_invite"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         app:layout_constraintTop_toBottomOf="@id/iv_invite_friend"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
                                         android:textColor="@color/black"
                                         android:text="친구초대"
                                         android:textStyle="bold"
@@ -231,21 +239,22 @@
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_marginStart="@dimen/activity_more_margin"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="match_parent">
                                     <ImageView
                                         android:id="@+id/iv_all"
-                                        android:layout_width="40dp"
+                                        android:layout_width="30dp"
                                         android:layout_height="40dp"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
-                                        android:src="@drawable/ic_home_table_zzim"/>
+                                        android:src="@drawable/ic_home_table_all_menu"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         app:layout_constraintTop_toBottomOf="@id/iv_all"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
                                         android:textColor="@color/black"
                                         android:text="전체메뉴"
                                         android:textStyle="bold"
@@ -393,7 +402,7 @@
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
-                                        android:src="@drawable/ic_home_table_zzim"/>
+                                        android:src="@drawable/ic_home_table_golf"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -418,7 +427,7 @@
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent"
-                                        android:src="@drawable/ic_home_table_zzim"/>
+                                        android:src="@drawable/ic_home_table_dolls"/>
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -450,20 +459,22 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tl_main"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="50dp"
+            app:tabIndicatorHeight="3dp"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@color/black"
+            app:tabTextColor="@color/light_gray"
             app:tabSelectedTextColor="@color/black"
             app:tabIndicatorColor="@color/black">
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_home_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
