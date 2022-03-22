@@ -29,6 +29,9 @@
         <activity android:name=".src.passwd.PasswordActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
+        <activity android:name=".src.register.RegisterActivity"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
     </application>
 
 </manifest>

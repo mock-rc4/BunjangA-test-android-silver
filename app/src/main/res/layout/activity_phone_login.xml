@@ -40,6 +40,7 @@
                 android:layout_marginTop="50dp"/>
             <EditText
                 android:id="@+id/edt_phone_number"
+                android:textCursorDrawable="@drawable/shape_rect_cursor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
@@ -133,6 +134,7 @@
                 <EditText
                     android:id="@+id/edt_birthday"
                     android:layout_width="180dp"
+                    android:textCursorDrawable="@drawable/shape_rect_cursor"
                     android:layout_height="wrap_content"
                     android:nextFocusDown="@id/edt_sex"
                     android:textStyle="bold"
@@ -150,6 +152,7 @@
                     android:textSize="30sp"/>
                 <EditText
                     android:id="@+id/edt_sex"
+                    android:textCursorDrawable="@drawable/shape_rect_cursor"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_margin"
@@ -214,6 +217,7 @@
             android:layout_marginTop="@dimen/activity_more_margin"/>
         <EditText
             android:id="@+id/edt_name"
+            android:textCursorDrawable="@drawable/shape_rect_cursor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin"

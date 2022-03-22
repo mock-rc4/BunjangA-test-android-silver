@@ -61,6 +61,7 @@ class ApplicationClass : Application() {
             .build()
     }
 
+    // 유저 로그인
     private fun UserLoginretrofitInstance() {
         sRetrofit = Retrofit.Builder()
             .baseUrl(API_URL)

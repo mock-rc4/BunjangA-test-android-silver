@@ -8,12 +8,14 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityPasswordBinding
 import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.login.PhoneLoginActivity
 import com.example.risingtest.src.passwd.models.LoginResponse
 import com.example.risingtest.src.passwd.models.PostLoginRequest
+import com.example.risingtest.src.register.RegisterActivity
 import java.util.*
 
 class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordBinding::inflate),PasswordActivityView {
@@ -29,13 +31,10 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
         super.onCreate(savedInstanceState)
 
         timer = Timer()
-        //타이머
-//        TimerTask()
 
         editTextListner()
         showKeyboard()
-
-        // 유저 정보 받아오기
+        loginBtnClick()
         getUserInfo()
 
         // 뒤로가기 버튼 눌렀을 때
@@ -45,22 +44,24 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
             finish()
         }
 
-        // 패스워드 치고 '다음' 눌렀을 때
-        loginBtnClick()
+        //타이머
+//        TimerTask()
     }
 
+    // 유저 정보 받아오기
     fun getUserInfo() {
         if (intent.hasExtra("userName")) {
             userName = intent.getStringExtra("userName").toString()
             userBirth = intent.getStringExtra("userBirth").toString()
             phoneNumber = intent.getStringExtra("phoneNumber").toString()
+            binding.tvPhoneNumber.setText(phoneNumber)
         }
         else {
             Toast.makeText(this, "이름값이 없습니다!", Toast.LENGTH_SHORT).show()
         }
-
     }
 
+    // 패스워드 치고 '다음' 눌렀을 때
     fun loginBtnClick(){
         binding.btnNext.setOnClickListener {
             userPwd = binding.edtNumber.text.toString()
@@ -72,6 +73,7 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
         }
     }
 
+    // 키보드 바로 올리
     fun showKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -118,7 +120,6 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
 
     override fun onPostUserSuccess(response: LoginResponse) {
         dismissLoadingDialog()
-//        response.message?.let { showCustomToast(it) }
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
@@ -127,8 +128,30 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
     override fun onPostUserFailure(message: String) {
         dismissLoadingDialog()
         showCustomToast("오류 : $message")
+
+        // 유저가 없다면
+        signUpUser()
+
+        // 비밀번호 오류라면
+        passwdFail()
     }
 
+    // 비밀번호가 없으면 회원가입 창(상점명 설정)으로 이동
+    fun signUpUser(){
+        val intent = Intent(this, RegisterActivity::class.java)
+        intent.putExtra("userName", userName)
+        intent.putExtra("userBirth", userBirth)
+        intent.putExtra("phoneNumber", phoneNumber)
+        intent.putExtra("userName", userName)
+        startActivity(intent)
+    }
+
+    // 비밀번호 오류났을 때
+    fun passwdFail(){
+        binding.tvNumberCheck.setText("인증번호가 올바르지 않습니다.")
+        binding.tvNumberCheck.setTextColor(this.getResources().getColor(R.color.bunjang_color))
+        binding.view.setBackgroundColor(this.getResources().getColor(R.color.bunjang_color))
+    }
     //    private fun TimerTask() {
 //        timerTask = object : TimerTask() {
 //            var count=10
