@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 // 앱이 실행될때 1번만 실행이 됩니다.
 class ApplicationClass : Application() {
-    val API_URL = "https://members.softsquared.com/"
+    val API_URL = "http://prod.hiimpedro.site:9000/"
 
     // 테스트 서버 주소
     // val API_URL = "http://dev-api.test.com/"
@@ -32,11 +32,13 @@ class ApplicationClass : Application() {
 
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.
     override fun onCreate() {
+        UserLoginretrofitInstance()
+        initRetrofitInstance()
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
         // 레트로핏 인스턴스 생성
-        initRetrofitInstance()
+//        initRetrofitInstance()
     }
 
     // 레트로핏 인스턴스를 생성하고, 레트로핏에 각종 설정값들을 지정해줍니다.
@@ -58,4 +60,13 @@ class ApplicationClass : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    private fun UserLoginretrofitInstance() {
+        sRetrofit = Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+
 }

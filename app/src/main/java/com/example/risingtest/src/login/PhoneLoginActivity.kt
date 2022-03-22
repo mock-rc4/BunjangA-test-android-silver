@@ -47,6 +47,17 @@ class PhoneLoginActivity : BaseActivity<ActivityPhoneLoginBinding>(ActivityPhone
 
     }
 
+    fun loginBtnClick(){
+        binding.btnRegisterCheck.setOnClickListener {
+            val userName = binding.edtName.text.toString()
+            val userBirth = binding.edtBirthday.text.toString()
+            val phoneNumber = binding.edtPhoneNumber.text.toString()
+
+
+        }
+    }
+
+
     fun showKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -176,8 +187,15 @@ class PhoneLoginActivity : BaseActivity<ActivityPhoneLoginBinding>(ActivityPhone
         })
 
         binding.btnRegisterCheck.setOnClickListener {
+            val userName = binding.edtName.text.toString()
+            val userBirth = binding.edtBirthday.text.toString()
+            val phoneNumber = binding.edtPhoneNumber.text.toString()
+
             if(isFinish){
                 val intent = Intent(this, PasswordActivity::class.java)
+                intent.putExtra("userName", userName)
+                intent.putExtra("userBirth", userBirth)
+                intent.putExtra("phoneNumber", phoneNumber)
                 startActivity(intent)
                 finish()
             }

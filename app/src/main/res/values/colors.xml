@@ -20,4 +20,6 @@
     <color name="gray_line">#EBEBEB</color>
     <color name="green">#1C9975</color>
     <color name="unable_pink">#F8E1E2</color>
+    <color name="light_light_light_gray">#F4F4F4</color>
+    <color name="light_pink">#F7ECEC</color>
 </resources>

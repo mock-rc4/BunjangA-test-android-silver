@@ -5,19 +5,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import com.example.risingtest.R
+import android.widget.Toast
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityPasswordBinding
 import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.login.PhoneLoginActivity
+import com.example.risingtest.src.passwd.models.LoginResponse
+import com.example.risingtest.src.passwd.models.PostLoginRequest
 import java.util.*
 
-class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordBinding::inflate) {
+class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordBinding::inflate),PasswordActivityView {
 
     private lateinit var timer : Timer
     private lateinit var timerTask : TimerTask
+    private lateinit var userName : String
+    private lateinit var userBirth : String
+    private lateinit var phoneNumber : String
+    private lateinit var userPwd : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,34 +35,42 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
         editTextListner()
         showKeyboard()
 
+        // 유저 정보 받아오기
+        getUserInfo()
+
         // 뒤로가기 버튼 눌렀을 때
         binding.ivBack.setOnClickListener {
             val intent = Intent(this, PhoneLoginActivity::class.java)
             startActivity(intent)
             finish()
         }
+
+        // 패스워드 치고 '다음' 눌렀을 때
+        loginBtnClick()
     }
 
-//    private fun TimerTask() {
-//        timerTask = object : TimerTask() {
-//            var count=10
-//            override fun run() {
-//                binding.tvTimer.post(Runnable {
-//                    if (count > 0) {
-//                        binding.tvTimer.setText(count.toString())
-//                    } else {
-////                        val intent = Intent(applicationContext, PlaitingActivity::class.java)
-////                        intent.putExtra("list",list)
-////                        intent.putExtra("array_img",images)
-////                        startActivity(intent)
-////                        finish()
-//                    }
-//                    count--
-//                })
-//            }
-//        }
-//        timer.schedule(timerTask, 0, 1000)
-//    }
+    fun getUserInfo() {
+        if (intent.hasExtra("userName")) {
+            userName = intent.getStringExtra("userName").toString()
+            userBirth = intent.getStringExtra("userBirth").toString()
+            phoneNumber = intent.getStringExtra("phoneNumber").toString()
+        }
+        else {
+            Toast.makeText(this, "이름값이 없습니다!", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    fun loginBtnClick(){
+        binding.btnNext.setOnClickListener {
+            userPwd = binding.edtNumber.text.toString()
+
+            val postRequest = PostLoginRequest(userName = userName, userBirth = userBirth,
+                phoneNumber = phoneNumber, userPwd = userPwd)
+            showLoadingDialog(this)
+            PasswordService(this).tryPostLogin(postRequest)
+        }
+    }
 
     fun showKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -94,10 +108,45 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
 
         })
 
-        binding.btnNext.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        // 비밀번호 치고 다음으로 이동
+//        binding.btnNext.setOnClickListener {
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
     }
+
+    override fun onPostUserSuccess(response: LoginResponse) {
+        dismissLoadingDialog()
+//        response.message?.let { showCustomToast(it) }
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    override fun onPostUserFailure(message: String) {
+        dismissLoadingDialog()
+        showCustomToast("오류 : $message")
+    }
+
+    //    private fun TimerTask() {
+//        timerTask = object : TimerTask() {
+//            var count=10
+//            override fun run() {
+//                binding.tvTimer.post(Runnable {
+//                    if (count > 0) {
+//                        binding.tvTimer.setText(count.toString())
+//                    } else {
+////                        val intent = Intent(applicationContext, PlaitingActivity::class.java)
+////                        intent.putExtra("list",list)
+////                        intent.putExtra("array_img",images)
+////                        startActivity(intent)
+////                        finish()
+//                    }
+//                    count--
+//                })
+//            }
+//        }
+//        timer.schedule(timerTask, 0, 1000)
+//    }
 }

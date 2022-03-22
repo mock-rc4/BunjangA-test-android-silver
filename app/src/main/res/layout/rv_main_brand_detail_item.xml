@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/fl_product_img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp">
+            <ImageView
+                android:id="@+id/iv_proudct_img"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_product"
+                android:adjustViewBounds="true"/>
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb_zzim"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/ic_zzim"
+                android:button="@null"
+                android:layout_gravity="top|right" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="170,000원"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_product_img"
+        android:layout_marginTop="@dimen/activity_margin"/>
+    <LinearLayout
+        android:id="@+id/ll_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_price"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_safey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_product_price"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="안전"
+            android:textSize="15sp"
+            android:textColor="@color/green"/>
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마지셔우드 베셋숄더 베이지"
+            android:textSize="15sp"
+            android:ellipsize="end"
+            android:layout_marginStart="5dp"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
