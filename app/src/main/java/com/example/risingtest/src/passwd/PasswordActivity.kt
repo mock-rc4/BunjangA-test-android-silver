@@ -97,10 +97,8 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
                     binding.btnNext.isClickable = false
                     binding.btnNext.isEnabled = false
                 }else {
-                    // 이름 입력했을 때
-//                    binding.btnRegisterCheck.isClickable = true
-//                    binding.btnRegisterCheck.isEnabled = true
                     binding.btnNext.isEnabled=true
+                    binding.btnNext.isClickable = true
                 }
             }
 
@@ -120,20 +118,25 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
 
     override fun onPostUserSuccess(response: LoginResponse) {
         dismissLoadingDialog()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        Log.d("무엇이 정답?:", response.toString())
+        if(response.code==3014){
+            // 비밀번호가 잘못되었을 때
+            passwdFail()
+        }
+        else if(response.code==2023){
+            // 유저가 없다면
+            signUpUser()
+        }else if(response.code==1000){
+            // 비밀번호가 잘못되지도 않고 유저였다면 로그인
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onPostUserFailure(message: String) {
         dismissLoadingDialog()
         showCustomToast("오류 : $message")
-
-        // 유저가 없다면
-        signUpUser()
-
-        // 비밀번호 오류라면
-        passwdFail()
     }
 
     // 비밀번호가 없으면 회원가입 창(상점명 설정)으로 이동

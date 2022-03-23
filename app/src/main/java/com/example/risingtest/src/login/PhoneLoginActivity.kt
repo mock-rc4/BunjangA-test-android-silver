@@ -102,6 +102,7 @@ class PhoneLoginActivity : BaseActivity<ActivityPhoneLoginBinding>(ActivityPhone
 //                    binding.btnRegisterCheck.isClickable = true
 //                    binding.btnRegisterCheck.isEnabled = true
                     binding.btnRegisterCheck.isEnabled=true
+                    binding.btnRegisterCheck.isClickable = true
                 }
             }
 
@@ -192,6 +193,7 @@ class PhoneLoginActivity : BaseActivity<ActivityPhoneLoginBinding>(ActivityPhone
             val phoneNumber = binding.edtPhoneNumber.text.toString()
 
             if(isFinish){
+                isFinish=false
                 val intent = Intent(this, PasswordActivity::class.java)
                 intent.putExtra("userName", userName)
                 intent.putExtra("userBirth", userBirth)

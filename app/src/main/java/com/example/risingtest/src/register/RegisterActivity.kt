@@ -2,16 +2,19 @@ package com.example.risingtest.src.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import com.example.risingtest.config.BaseActivity
-import com.example.risingtest.databinding.ActivitySetStoreNameBinding
+import com.example.risingtest.databinding.ActivityRegisterBinding
 import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.passwd.PasswordService
 import com.example.risingtest.src.passwd.models.PostLoginRequest
 import com.example.risingtest.src.register.models.PostSignUpRequest
 import com.example.risingtest.src.register.models.SignUpResponse
 
-class RegisterActivity : BaseActivity<ActivitySetStoreNameBinding>(ActivitySetStoreNameBinding::inflate), RegisterActivityView {
+class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterBinding::inflate), RegisterActivityView {
 
     private lateinit var userName : String
     private lateinit var userBirth : String
@@ -24,6 +27,7 @@ class RegisterActivity : BaseActivity<ActivitySetStoreNameBinding>(ActivitySetSt
 
         getInfo()
         RegisterBtnClick()
+        editTextListner()
 
         // 뒤로 가기 버튼 눌렀을 때
         binding.ivBack.setOnClickListener {
@@ -56,11 +60,39 @@ class RegisterActivity : BaseActivity<ActivitySetStoreNameBinding>(ActivitySetSt
         }
     }
 
+    // 인증번호 입력할 때
+    fun editTextListner() {
+        binding.edtStoreName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // 입력하기 전에 조치
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // 입력난에 변화가 있을 시 조치
+                if(binding.edtStoreName.length()<1){
+                    binding.btnRegister.isClickable = false
+                    binding.btnRegister.isEnabled = false
+                }else {
+                    binding.btnRegister.isEnabled=true
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                // 입력 후 조치
+            }
+
+        })
+
+    }
+
     override fun onPostSignUpSuccess(response: SignUpResponse) {
         dismissLoadingDialog()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+        if(response.code==1000){
+            showCustomToast("회원가입에 성공하였습니다.")
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onPostSignUpFailure(message: String) {
