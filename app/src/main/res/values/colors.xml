@@ -16,10 +16,12 @@
     <!--    번개장터 색-->
     <color name="light_gray">#A1A1A1</color>
     <color name="light_light_gray">#D4D2DE</color>
+    <color name="light_dark_gray">#A2A2A2</color>
     <color name="bunjang_color">#C70011</color>
     <color name="gray_line">#EBEBEB</color>
     <color name="green">#1C9975</color>
     <color name="unable_pink">#F8E1E2</color>
     <color name="light_light_light_gray">#F4F4F4</color>
     <color name="light_pink">#F7ECEC</color>
+    <color name="bunjang_ligh_color">#C60012</color>
 </resources>

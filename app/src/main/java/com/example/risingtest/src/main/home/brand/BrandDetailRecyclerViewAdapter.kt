@@ -1,46 +1,38 @@
-package com.example.risingtest.src.main.home.recommend
+package com.example.risingtest.src.main.home.brand
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.risingtest.R
 import com.example.risingtest.databinding.RvMainBrandDetailItemBinding
-import com.example.risingtest.databinding.RvMainBrandItemBinding
-import com.example.risingtest.src.main.home.brand.BrandData
-import com.example.risingtest.src.main.home.brand.BrandDetailData
 
-class BrandDetailRecyclerViewAdapter(private val dataList: ArrayList<BrandDetailData>) : RecyclerView.Adapter<BrandDetailRecyclerViewAdapter.ItemViewHolder>() {
+class BrandDetailRecyclerViewAdapter(private val context: Context, private val dataList: ArrayList<BrandDetailData>) : RecyclerView.Adapter<BrandDetailRecyclerViewAdapter.Holder>() {
 
     lateinit var binding: RvMainBrandDetailItemBinding
 
-    inner class ItemViewHolder(private val binding : RvMainBrandDetailItemBinding) : RecyclerView.ViewHolder(binding.root){
-
-        fun bind(data: BrandDetailData) {
-//            binding.tvProductName.text = data.product_name
-//            binding.tvAddress.text = data.address
-//            binding.tvTime.text = data.time
-//            binding.ivProudctImg.setImageResource(data.product_img)
-//            Glide
-//                .with(binding.ivBook.context)
-//                .load(data.img)
-//                .into(binding.ivBook)
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        // viewholder를 생성하는 부분
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         binding = RvMainBrandDetailItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ItemViewHolder(binding)
+        return Holder(binding)
     }
 
-    // 데이터를 그려주게되는 함수
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(dataList[position])
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        var item = dataList[position]
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int {
         return dataList.size
     }
 
+    inner class Holder(var binding: RvMainBrandDetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val product_name : TextView = itemView.findViewById(R.id.tv_product_name)
+        fun bind(item: BrandDetailData) {
+//            binding.tvProductName = item.product_name
+            product_name.text = item.product_name
+        }
+    }
 
 }

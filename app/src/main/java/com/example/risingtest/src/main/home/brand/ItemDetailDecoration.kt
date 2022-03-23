@@ -1,7 +1,8 @@
-package com.example.risingtest.src.main.home.recommend
+package com.example.risingtest.src.main.home.brand
 
 import android.content.Context
 import android.graphics.Rect
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
@@ -9,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 
-class ItemDecoration(context: Context) : ItemDecoration() {
+class ItemDetailDecoration(context: Context) : ItemDecoration() {
     private val size10: Int
     private val size5: Int
     private val size20: Int
-    private val size7: Int
-    private val size15: Int
+    private val size12: Int
+    private val size0: Int
 
     // dp -> pixel 단위로 변경
     private fun dpToPx(context: Context, dp: Int): Int {
@@ -28,10 +29,10 @@ class ItemDecoration(context: Context) : ItemDecoration() {
 
     init {
         size10 = dpToPx(context, 10)
+        size12 = dpToPx(context, 12)
         size5 = dpToPx(context, 5)
         size20 = dpToPx(context,20)
-        size7 = dpToPx(context,7)
-        size15 = dpToPx(context,15)
+        size0 = dpToPx(context,0)
     }
 
     override fun getItemOffsets(
@@ -44,26 +45,16 @@ class ItemDecoration(context: Context) : ItemDecoration() {
         val position = parent.getChildAdapterPosition(view)
         val itemCount = state.itemCount
 
-        //상하 설정
-        if (position == 0 || position == 1) {
-            // 첫번 째 줄 아이템
-            outRect.top = size15
-            outRect.bottom = size10
+        outRect.top = size10
+        outRect.right = size20
+        outRect.bottom = size10
+
+        // 첫번째 아이템과 마지막 아이템
+        if(position != itemCount-1){
+            outRect.right = size12
         } else {
-            outRect.top = size20
-            outRect.bottom = size10
+            outRect.right = size20
         }
 
-        // spanIndex = 0 -> 왼쪽
-        // spanIndex = 1 -> 오른쪽
-        val lp = view.getLayoutParams() as GridLayoutManager.LayoutParams
-        val spanIndex = lp.spanIndex
-        if (spanIndex == 0) {
-            //왼쪽 아이템
-            outRect.right = size5
-        } else if (spanIndex == 1) {
-            //오른쪽 아이템
-            outRect.left = size7
-        }
     }
 }

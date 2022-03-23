@@ -1,4 +1,4 @@
-package com.example.risingtest.src.main.home.recommend
+package com.example.risingtest.src.main.home.brand
 
 import android.content.Context
 import android.graphics.Rect
@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 
-class ItemDecoration(context: Context) : ItemDecoration() {
+class ItemBrandDecoration(context: Context) : ItemDecoration() {
     private val size10: Int
     private val size5: Int
     private val size20: Int
+    private val size30: Int
     private val size7: Int
     private val size15: Int
 
@@ -32,6 +33,7 @@ class ItemDecoration(context: Context) : ItemDecoration() {
         size20 = dpToPx(context,20)
         size7 = dpToPx(context,7)
         size15 = dpToPx(context,15)
+        size30 = dpToPx(context,30)
     }
 
     override fun getItemOffsets(
@@ -45,25 +47,25 @@ class ItemDecoration(context: Context) : ItemDecoration() {
         val itemCount = state.itemCount
 
         //상하 설정
-        if (position == 0 || position == 1) {
+        if (position == 0) {
             // 첫번 째 줄 아이템
             outRect.top = size15
-            outRect.bottom = size10
+            outRect.bottom = size20
         } else {
-            outRect.top = size20
-            outRect.bottom = size10
+            outRect.top = size10
+            outRect.bottom = size30
         }
 
         // spanIndex = 0 -> 왼쪽
         // spanIndex = 1 -> 오른쪽
-        val lp = view.getLayoutParams() as GridLayoutManager.LayoutParams
-        val spanIndex = lp.spanIndex
-        if (spanIndex == 0) {
-            //왼쪽 아이템
-            outRect.right = size5
-        } else if (spanIndex == 1) {
-            //오른쪽 아이템
-            outRect.left = size7
-        }
+//        val lp = view.getLayoutParams() as GridLayoutManager.LayoutParams
+//        val spanIndex = lp.spanIndex
+//        if (spanIndex == 0) {
+//            //왼쪽 아이템
+//            outRect.right = size5
+//        } else if (spanIndex == 1) {
+//            //오른쪽 아이템
+//            outRect.left = size7
+//        }
     }
 }

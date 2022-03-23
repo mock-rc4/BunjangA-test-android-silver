@@ -45,7 +45,7 @@
         android:text="90,000원"
         app:layout_constraintTop_toBottomOf="@id/cl_product_img"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/activity_little_margin"
+        android:layout_marginTop="@dimen/activity_margin"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"/>
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_product_price"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/activity_margin"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_safey"
@@ -88,23 +88,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="구로구 구로제1동"
-            android:textSize="13sp"
-            android:textColor="@color/light_gray"
+            android:textSize="12sp"
+            android:textColor="@color/light_dark_gray"
             android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:text="・"
-            android:textColor="@color/light_gray"/>
+            android:textColor="@color/light_dark_gray"/>
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="15시간 전"
-            android:textSize="13sp"
-            android:textColor="@color/light_gray"
+            android:textSize="12sp"
+            android:textColor="@color/light_dark_gray"
             android:textStyle="bold"/>
     </LinearLayout>
     <ImageView
@@ -114,7 +114,7 @@
         android:src="@drawable/ic_pay_logo"
         app:layout_constraintTop_toBottomOf="@id/ll_address"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/activity_margin"/>
+        android:layout_marginTop="5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

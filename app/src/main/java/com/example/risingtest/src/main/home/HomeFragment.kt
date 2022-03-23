@@ -1,9 +1,12 @@
 package com.example.risingtest.src.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Menu
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseFragment
 import com.example.risingtest.databinding.FragmentHomeBinding
+import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.main.home.brand.BrandFragment
 import com.example.risingtest.src.main.home.recommend.RecommendFragment
 import com.google.android.material.tabs.TabLayout
@@ -51,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         tab.setupWithViewPager(pager)
 
         adViewPager()
+        toolbar(view)
 
 
 //        val viewPager2: ViewPager2 = view.findViewById(R.id.vp_home_tab)
@@ -94,6 +99,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         binding.vpHomeAd.setCurrentItem(currentPosition,true)
         currentPosition++
     }
+
     inner class PagerRunnable : Runnable {
         override fun run() {
             while(true){
@@ -101,6 +107,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 handler.sendEmptyMessage(0)
             }
         }
+    }
+
+//    //액션버튼 메뉴 액션바에 집어 넣기
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.toolbar_main_menu, menu)
+//        return true
+//    }
+
+    fun toolbar(view: View){
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar) // 상단바
+        toolbar.inflateMenu(R.menu.toolbar_main_menu) // 메뉴xml과 상단바 연결 (프래그먼트xml에서 연결했으면 안해도 됨) //
+    // 상단바 메뉴 클릭시
+        toolbar.setOnMenuItemClickListener{ when(it.itemId) {
+            R.id.all -> {
+                startActivity(Intent(context, MainActivity::class.java))
+                true
+            }
+            R.id.search -> {
+                startActivity(Intent(context, MainActivity::class.java))
+                true
+            }
+            R.id.alarm -> {
+                startActivity(Intent(context, MainActivity::class.java))
+                true
+            }
+            else -> false
+        }
+        }
+
     }
 
 }

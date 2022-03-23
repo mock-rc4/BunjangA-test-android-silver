@@ -2,6 +2,6 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/bunjang_color" />
+    <solid android:color="@color/bunjang_ligh_color" />
     <corners android:radius="8dp" />
 </shape>
