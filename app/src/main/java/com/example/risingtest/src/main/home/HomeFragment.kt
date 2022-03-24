@@ -1,9 +1,11 @@
 package com.example.risingtest.src.main.home
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -16,7 +18,9 @@ import com.example.risingtest.config.BaseFragment
 import com.example.risingtest.databinding.FragmentHomeBinding
 import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.main.home.brand.BrandFragment
+import com.example.risingtest.src.main.home.recommend.ProductData
 import com.example.risingtest.src.main.home.recommend.RecommendFragment
+import com.example.risingtest.src.product.ProductActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -33,6 +37,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         private lateinit var tab_brand : BrandFragment
         private lateinit var tabLayout : TabLayout
         private var NUM_PAGES : Int = 2
+        private var scorll_x : Int = 0
+        private var scroll_oldx : Int = 0
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +50,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             true
         }
 
+        binding.ivZzim.setOnClickListener {
+            val intent = Intent(this.requireActivity(), ProductActivity::class.java)
+            startActivity(intent)
+        }
         tab_recommend = RecommendFragment()
         tab_brand = BrandFragment()
         tabLayout = binding.tlMain
@@ -56,6 +66,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         adViewPager()
         toolbar(view)
+        scroll()
+        binding.seekBar.setProgress(40)
 
 
 //        val viewPager2: ViewPager2 = view.findViewById(R.id.vp_home_tab)
@@ -77,6 +89,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
     }
 
+    // 메인화면 광고
     fun adViewPager(){
 
         adArrayList.add(AdArrayList("1",R.drawable.ic_ad_01))
@@ -92,6 +105,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         thread.start()
     }
 
+    // 뷰페이저 position
     fun setPage() {
         if(currentPosition==4) {
             currentPosition=0
@@ -115,6 +129,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //        return true
 //    }
 
+    // 메인 툴바
     fun toolbar(view: View){
         val toolbar: Toolbar = view.findViewById(R.id.toolbar) // 상단바
         toolbar.inflateMenu(R.menu.toolbar_main_menu) // 메뉴xml과 상단바 연결 (프래그먼트xml에서 연결했으면 안해도 됨) //
@@ -137,5 +152,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         }
 
     }
+
+    fun scroll(){
+        binding.hsvHomeTable.setOnScrollChangeListener { p0, p1, p2, p3, p4 ->
+            if(p1>p3){
+                // 오른쪽으로 스크롤 을 때
+                scorll_x = p1
+                scroll_oldx = p3
+            }
+            else if(p1<p3){
+                // 왼쪽으로 스크롤 했을 때
+                scorll_x = p1
+                scroll_oldx = p3
+            }
+            binding.seekBar.setProgress(40+scorll_x)
+        }
+    }
+
+//    fun control_scroll(){
+//        ObjectAnimator.ofFloat(view, "ScrollX", scroll_oldx, scroll_oldx).app
+//    }
 
 }

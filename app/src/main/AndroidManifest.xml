@@ -24,14 +24,16 @@
         <activity android:name=".src.MainActivity">
         </activity>
         <activity android:name=".src.login.LoginActivity"/>
-        <activity android:name=".src.login.PhoneLoginActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".src.login.PhoneLoginActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".src.passwd.PasswordActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name=".src.register.RegisterActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
+        <activity android:name=".src.product.ProductActivity"/>
     </application>
 
 </manifest>

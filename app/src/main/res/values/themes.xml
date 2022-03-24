@@ -19,6 +19,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
+        <item name="android:scrollbarThumbVertical">@drawable/shape_scroll_bar_thumbs</item>
+        <item name="android:scrollbarTrackVertical">@drawable/shape_scroll_bar_track</item>
+
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
@@ -28,6 +31,7 @@
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/shape_bottom_sheet</item>
     </style>
+
 
    <!-- 탭 아이템 textsize변경-->
     <style name="tab_text" parent="TextAppearance.Design.Tab">
@@ -39,6 +43,14 @@
     <style name="scroll_custom">
         <item name="android:scrollbarThumbVertical">@drawable/shape_scroll_bar_thumbs</item>
         <item name="android:scrollbarTrackVertical">@drawable/shape_scroll_bar_track</item>
+    </style>
+
+    <!--    RatingBar 커스텀-->
+    <style name="starRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:maxHeight">10dp</item>
+        <item name="android:thumb">@null</item>
     </style>
 
 
