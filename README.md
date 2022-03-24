@@ -16,3 +16,13 @@
 - 홈화며 광고 viewPager 구현
 - 홈화면 레이아웃 구현
 - 홈화면 탭레이아웃에 ViewPager 추가
+
+## 3월 22일 (화)
+- 브랜드 레이아웃 구현
+- 로그인 API
+- 회원가입 API
+
+## 3월 23일 (수)
+- 브랜드 탭 Recyclerview안에 horizontal recyclerview 구현
+- 브랜드 탭 RecyclerView Header 구현
+- 홈화며 toolbar, scrollbar 수정
