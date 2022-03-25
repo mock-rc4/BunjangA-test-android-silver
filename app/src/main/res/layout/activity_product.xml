@@ -223,7 +223,9 @@
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:paddingHorizontal="@dimen/activity_margin"
-                android:paddingVertical="@dimen/activity_little_margin"
+                android:paddingVertical="13dp"
+                android:elevation="5dp"
+                android:outlineSpotShadowColor="@color/light_dark_gray"
                 android:background="@drawable/shape_rect_white">
                 <ImageView
                     android:id="@+id/iv_ad"
@@ -387,6 +389,52 @@
                 android:textSize="17sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:paddingHorizontal="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/tv_tag_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="# 샤넬ddddddd"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_tag_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_little_margin"
+                    android:text="# 샤넬ddddddd"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_tag_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_little_margin"
+                    android:text="# 샤넬ddddd"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_tag_04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_little_margin"
+                    android:text="# 샤넬"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_tag_05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_little_margin"
+                    android:text="# 샤넬"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

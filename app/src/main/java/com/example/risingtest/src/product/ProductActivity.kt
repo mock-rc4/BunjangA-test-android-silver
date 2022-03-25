@@ -13,10 +13,11 @@ import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityProductBinding
 import com.example.risingtest.src.MainActivity
+import com.example.risingtest.src.product.models.ProductResponse
 
 
 data class ProductImg(val img: Int)
-class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBinding::inflate) {
+class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBinding::inflate), ProductActivityView {
 
     var product_img = ArrayList<ProductImg>()
     private lateinit var product_viewPager: ProductViewPagerAdapter
@@ -28,9 +29,10 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
 
         toolbar()
         setViewPager()
+
+        ProductService(this).tryGetProductInfoBooks(1)
 //        indicator()
 //        product_img_size=product_img.size
-        Log.d("왜그러저ㅣ?",product_img_size.toString())
 //
 //        for (i in 0 until product_img_size){
 //            binding.llIndicator.addView(createIndicator())
@@ -118,6 +120,15 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         })
         //init indicator
         binding.ciProductImg.createDotPanel(product_img.size, R.drawable.shape_circle_gray, R.drawable.shape_circle_red,0)
+    }
+
+    override fun onGetProductInfoSuccess(response: ProductResponse) {
+//        product_img.add(ProductImg(response.result))
+        Log.d("결과",response.result.toString())
+    }
+
+    override fun onGetProductInfoFailure(message: String) {
+
     }
 
 

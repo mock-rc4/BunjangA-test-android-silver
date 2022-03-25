@@ -1,16 +1,15 @@
 package com.example.risingtest.src.register
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
+import com.example.risingtest.config.ApplicationClass
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityRegisterBinding
 import com.example.risingtest.src.MainActivity
-import com.example.risingtest.src.passwd.PasswordService
-import com.example.risingtest.src.passwd.models.PostLoginRequest
 import com.example.risingtest.src.register.models.PostSignUpRequest
 import com.example.risingtest.src.register.models.SignUpResponse
 
@@ -74,6 +73,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
                     binding.btnRegister.isEnabled = false
                 }else {
                     binding.btnRegister.isEnabled=true
+                    binding.btnRegister.isClickable = true
                 }
             }
 
@@ -89,6 +89,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
         dismissLoadingDialog()
         if(response.code==1000){
             showCustomToast("회원가입에 성공하였습니다.")
+            val jwt : String = response.result?.jwt.toString()
+            autologin(jwt)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -98,6 +100,14 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
     override fun onPostSignUpFailure(message: String) {
         dismissLoadingDialog()
         showCustomToast("오류 : $message")
+    }
+
+    fun autologin(jwt : String){
+        val editor: SharedPreferences.Editor =
+            ApplicationClass.sSharedPreferences.edit() //sharedPreferences를 제어할 editor를 선언
+
+        editor.putString("X-ACCESS-TOKEN", jwt) // key,value 형식으로 저장
+        editor.commit()
     }
 
 }

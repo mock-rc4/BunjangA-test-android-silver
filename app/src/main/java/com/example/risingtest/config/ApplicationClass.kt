@@ -34,6 +34,7 @@ class ApplicationClass : Application() {
     override fun onCreate() {
         UserLoginretrofitInstance()
         initRetrofitInstance()
+        productInfoInstance()
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
@@ -63,6 +64,13 @@ class ApplicationClass : Application() {
 
     // 유저 로그인
     private fun UserLoginretrofitInstance() {
+        sRetrofit = Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    private fun productInfoInstance(){
         sRetrofit = Retrofit.Builder()
             .baseUrl(API_URL)
             .addConverterFactory(GsonConverterFactory.create())

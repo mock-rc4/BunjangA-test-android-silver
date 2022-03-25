@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat.startActivity
+import com.example.risingtest.config.ApplicationClass
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivitySplashBinding
 import com.example.risingtest.src.MainActivity
@@ -14,9 +15,19 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val jwtToken : String? = ApplicationClass.sSharedPreferences.getString(ApplicationClass.X_ACCESS_TOKEN,null)
+
+
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+
+            if(jwtToken.isNullOrEmpty()){
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+            else {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
         }, 1500)
     }
 }
