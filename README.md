@@ -26,3 +26,6 @@
 - 브랜드 탭 Recyclerview안에 horizontal recyclerview 구현
 - 브랜드 탭 RecyclerView Header 구현
 - 홈화며 toolbar, scrollbar 수정
+
+## 3워 24일 (목)
+- 상품 상세페이지 레이아웃 구현
