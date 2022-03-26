@@ -1,11 +1,15 @@
 package com.example.risingtest.src.product
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
@@ -13,7 +17,16 @@ import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityProductBinding
 import com.example.risingtest.src.MainActivity
+import com.example.risingtest.src.main.home.HomeFragment
 import com.example.risingtest.src.product.models.ProductResponse
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.chip.Chip
+import com.google.android.material.internal.ViewUtils.dpToPx
+import org.w3c.dom.Text
+import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 
 data class ProductImg(val img: Int)
@@ -30,6 +43,9 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
 
         toolbar()
         setViewPager()
+        toolbarScroll()
+        productScroll()
+        addTag()
 
         // 상품 idx 가져오기
         productIdx = intent.getSerializableExtra("idx") as Int
@@ -77,19 +93,19 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         menuInflater.inflate(R.menu.toolbar_product_menu, menu)
         return true
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.search -> {
-                Toast.makeText(applicationContext, "Search Click", Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.share -> {
-                Toast.makeText(applicationContext, "Option Click", Toast.LENGTH_SHORT).show()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+////        return when (item.itemId) {
+////            R.id.search -> {
+////                Toast.makeText(applicationContext, "Search Click", Toast.LENGTH_SHORT).show()
+////                true
+////            }
+////            R.id.share -> {
+////                Toast.makeText(applicationContext, "Option Click", Toast.LENGTH_SHORT).show()
+////                true
+////            }
+////            else -> super.onOptionsItemSelected(item)
+////        }
+//    }
 
     // 상품이미지 뷰페이저
     fun setViewPager(){
@@ -140,6 +156,101 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
     override fun onGetProductInfoFailure(message: String) {
         Log.d("오류",message.toString())
     }
+
+    fun toolbarScroll(){
+        binding.appbar.addOnOffsetChangedListener(object :
+            AppBarLayout.OnOffsetChangedListener {
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                val alpha = min(abs(verticalOffset/3),255)
+                binding.clToolbar.setBackgroundColor(Color.argb(alpha, 255,255,255))
+                if(alpha > 255 /2){
+                    binding.ivProductToolbarBack.setColorFilter(Color.argb(alpha, 0,0,0))
+                    binding.ivProductToolbarSearch.setColorFilter(Color.argb(alpha, 0,0,0))
+                    binding.ivProductToolbarShare.setColorFilter(Color.argb(alpha, 0,0,0))
+                    binding.tvProductInfo.visibility=View.VISIBLE
+                }else {
+                    binding.ivProductToolbarBack.setColorFilter(Color.argb(alpha, 255,255,255))
+                    binding.ivProductToolbarSearch.setColorFilter(Color.argb(alpha, 255,255,255))
+                    binding.ivProductToolbarShare.setColorFilter(Color.argb(alpha, 255,255,255))
+                    binding.tvProductInfo.visibility=View.INVISIBLE
+                }
+            }
+        })
+    }
+
+    fun productScroll(){
+        binding.appbar.addOnOffsetChangedListener(object :
+        AppBarLayout.OnOffsetChangedListener {
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                if(verticalOffset < -902){
+                    binding.clProductToolbar.visibility=View.VISIBLE
+                }else {
+                    binding.clProductToolbar.visibility=View.GONE
+                }
+                Log.d("vieir",verticalOffset.toString())
+            }
+
+        })
+    }
+
+    fun addTag(){
+        val name : String = "#샤넬 ㄴㄴㄴㄴㄴㄴ"
+        val name2 : String = "#샤넬"
+        val name3 : String = "#샤넬3432"
+        binding.flexBoxLayout.addchip(name)
+        binding.flexBoxLayout.addchip(name2)
+        binding.flexBoxLayout.addchip(name3)
+
+    }
+
+    private fun FlexboxLayout.addchip(tag : String){
+        val text = LayoutInflater.from(context).inflate(R.layout.view_tag,null) as TextView
+        text.text = tag
+
+        val layoutParams = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT)
+        layoutParams.rightMargin = dpToPx(20)
+
+        addView(text, childCount-1, layoutParams)
+    }
+
+    private fun FlexboxLayout.getAllChips():List<Chip> {
+        return (0 until childCount).mapNotNull { index ->
+            getChildAt(index) as? Chip
+        }
+    }
+
+    private fun FlexboxLayout.clearChips(){
+        val chipViews = (0 until childCount).mapNotNull { index ->
+            val view = getChildAt(index)
+            if (view is Chip) view else null
+        }
+        chipViews.forEach{ removeView(it)}
+    }
+
+    fun Context.dpToPx(dp : Int) : Int
+    = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics).roundToInt()
+
+//    fun scroll(){
+//        binding.appbar.setOnScrollChangeListener { p0, p1, p2, p3, p4 ->
+//            val view = p0.scrollBarSize
+//            Log.d("view",view.toString())
+//            if(p2>p4){
+//                // 아래로 스크롤 할 때
+////                HomeFragment.scorll_x = p1
+////                HomeFragment.scroll_oldx = p3
+//            }
+//            else if(p2<p4){
+//                // 위로 스크롤 했을 때
+////                HomeFragment.scorll_x = p1
+////                HomeFragment.scroll_oldx = p3
+//            }
+////            binding.seekBar.setProgress(40+scorll_x)
+////            if(HomeFragment.scorll_x ==11){
+////            }else {
+////                binding.scrollView.translationX = HomeFragment.scorll_x.toFloat()
+////            }
+//        }
+//    }
 
 
     // 인디케이터 뷰 생성
