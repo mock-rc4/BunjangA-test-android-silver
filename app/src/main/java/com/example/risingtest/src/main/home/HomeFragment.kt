@@ -2,6 +2,7 @@ package com.example.risingtest.src.main.home
 
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,8 +22,12 @@ import com.example.risingtest.src.main.home.brand.BrandFragment
 import com.example.risingtest.src.main.home.recommend.ProductData
 import com.example.risingtest.src.main.home.recommend.RecommendFragment
 import com.example.risingtest.src.product.ProductActivity
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.lang.Double.min
+import kotlin.math.abs
+import kotlin.math.min
 
 data class AdArrayList(val position: String,val img: Int)
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind, R.layout.fragment_home) {
@@ -36,7 +41,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         private lateinit var tab_recommend : RecommendFragment
         private lateinit var tab_brand : BrandFragment
         private lateinit var tabLayout : TabLayout
-        private var NUM_PAGES : Int = 2
         private var scorll_x : Int = 0
         private var scroll_oldx : Int = 0
     }
@@ -67,7 +71,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         adViewPager()
         toolbar(view)
         scroll()
-        binding.seekBar.setProgress(40)
+        toolbarScroll()
+//        binding.seekBar.setProgress(40)
 
 
 //        val viewPager2: ViewPager2 = view.findViewById(R.id.vp_home_tab)
@@ -134,27 +139,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         val toolbar: Toolbar = view.findViewById(R.id.toolbar) // 상단바
         toolbar.inflateMenu(R.menu.toolbar_main_menu) // 메뉴xml과 상단바 연결 (프래그먼트xml에서 연결했으면 안해도 됨) //
     // 상단바 메뉴 클릭시
-        toolbar.setOnMenuItemClickListener{ when(it.itemId) {
-            R.id.all -> {
-                startActivity(Intent(context, MainActivity::class.java))
-                true
-            }
-            R.id.search -> {
-                startActivity(Intent(context, MainActivity::class.java))
-                true
-            }
-            R.id.alarm -> {
-                startActivity(Intent(context, MainActivity::class.java))
-                true
-            }
-            else -> false
-        }
-        }
+//        toolbar.setOnMenuItemClickListener{ when(it.itemId) {
+//            R.id.all -> {
+//                startActivity(Intent(context, MainActivity::class.java))
+//                true
+//            }
+//            R.id.search -> {
+//                startActivity(Intent(context, MainActivity::class.java))
+//                true
+//            }
+//            R.id.alarm -> {
+//                startActivity(Intent(context, MainActivity::class.java))
+//                true
+//            }
+//            else -> false
+//        }
+//        }
 
     }
 
     fun scroll(){
         binding.hsvHomeTable.setOnScrollChangeListener { p0, p1, p2, p3, p4 ->
+            val view = p0.scrollBarSize
+            Log.d("view",view.toString())
             if(p1>p3){
                 // 오른쪽으로 스크롤 을 때
                 scorll_x = p1
@@ -165,8 +172,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
                 scorll_x = p1
                 scroll_oldx = p3
             }
-            binding.seekBar.setProgress(40+scorll_x)
+//            binding.seekBar.setProgress(40+scorll_x)
+            if(scorll_x==11){
+            }else {
+                binding.scrollView.translationX = scorll_x.toFloat()
+            }
         }
+    }
+
+    fun toolbarScroll(){
+        binding.appbar.addOnOffsetChangedListener(object :
+        AppBarLayout.OnOffsetChangedListener {
+            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
+                val alpha = min(abs(verticalOffset/2),255)
+                binding.clToolbar.setBackgroundColor(Color.argb(alpha, 255,255,255))
+                if(alpha > 255 /2){
+                    binding.ivToolbarAlarm.setColorFilter(Color.argb(alpha, 0,0,0))
+                    binding.ivToolbarAll.setColorFilter(Color.argb(alpha, 0,0,0))
+                    binding.ivToolbarSearch.setColorFilter(Color.argb(alpha, 0,0,0))
+                }else {
+                    binding.ivToolbarAlarm.setColorFilter(Color.argb(alpha, 255,255,255))
+                    binding.ivToolbarAll.setColorFilter(Color.argb(alpha, 255,255,255))
+                    binding.ivToolbarSearch.setColorFilter(Color.argb(alpha, 255,255,255))
+                }
+            }
+
+        })
     }
 
 //    fun control_scroll(){

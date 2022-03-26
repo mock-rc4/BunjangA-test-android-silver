@@ -10,7 +10,8 @@ import com.example.risingtest.R
 import com.example.risingtest.config.BaseFragment
 import com.example.risingtest.databinding.FragmentChildHomeRecommendBinding
 
-data class ProductData(var product_name : String, var product_price : String, var product_img : Int, var address : String, var time : String)
+data class ProductData(var product_name : String, var product_price : String,
+                       var product_img : Int, var address : String, var time : String, var idx : Int)
 
 class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(FragmentChildHomeRecommendBinding::bind, R.layout.fragment_child_home_recommend) {
 
@@ -22,22 +23,22 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
 
         initBestSellerRecycelrView()
 
-        dataList.add(ProductData("cos 코스 퀄티드 미니백ddddddd", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백dddddd", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전"))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백ddddddd", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",1))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백dddddd", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",2))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",3))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",4))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",5))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",6))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",7))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",8))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",9))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",10))
+        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",11))
 
     }
 
     fun initBestSellerRecycelrView() {
-        recyclerViewAdapter = RecommendRecyclerViewAdapter(dataList)
+        recyclerViewAdapter = RecommendRecyclerViewAdapter(this.requireActivity(),dataList)
         Log.d("dkdkdk",dataList.toString())
         binding.rvRecommendList.adapter = recyclerViewAdapter
         binding.rvRecommendList.layoutManager = GridLayoutManager(context, 2)

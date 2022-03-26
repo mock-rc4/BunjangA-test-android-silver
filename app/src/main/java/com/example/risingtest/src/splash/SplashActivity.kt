@@ -28,6 +28,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
+
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
         }, 1500)
     }
 }

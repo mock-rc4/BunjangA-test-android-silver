@@ -8,9 +8,11 @@ import retrofit2.Response
 
 class ProductService(val view: ProductActivityView) {
 
+    val token : String? = ApplicationClass.sSharedPreferences.getString(ApplicationClass.X_ACCESS_TOKEN,null)
+
     fun tryGetProductInfoBooks(productIdx : Int){
         val retrofitInterface = ApplicationClass.sRetrofit.create(ProductInterface::class.java)
-        retrofitInterface.getProductInfoBooks(productIdx).enqueue(object :
+        retrofitInterface.getProductInfo(token,productIdx).enqueue(object :
             Callback<ProductResponse> {
             override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
                 view.onGetProductInfoSuccess(response.body() as ProductResponse)

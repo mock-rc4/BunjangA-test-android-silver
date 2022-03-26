@@ -20,6 +20,7 @@ data class ProductImg(val img: Int)
 class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBinding::inflate), ProductActivityView {
 
     var product_img = ArrayList<ProductImg>()
+    private var productIdx : Int = 0
     private lateinit var product_viewPager: ProductViewPagerAdapter
     private var product_img_size : Int = product_img.size
 //    private var product_indicator_dot = ArrayList<ImageView>(product_img_size)
@@ -30,7 +31,10 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         toolbar()
         setViewPager()
 
-        ProductService(this).tryGetProductInfoBooks(1)
+        // 상품 idx 가져오기
+        productIdx = intent.getSerializableExtra("idx") as Int
+
+        ProductService(this).tryGetProductInfoBooks(productIdx)
 //        indicator()
 //        product_img_size=product_img.size
 //
@@ -55,18 +59,18 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
 
         toolbar.inflateMenu(R.menu.toolbar_product_menu) // 메뉴xml과 상단바 연결 (프래그먼트xml에서 연결했으면 안해도 됨) //
         // 상단바 메뉴 클릭시
-        toolbar.setOnMenuItemClickListener{ when(it.itemId) {
-            R.id.search -> {
-                startActivity(Intent(this, MainActivity::class.java))
-                true
-            }
-            R.id.alarm -> {
-                startActivity(Intent(this, MainActivity::class.java))
-                true
-            }
-            else -> false
-        }
-        }
+//        toolbar.setOnMenuItemClickListener{ when(it.itemId) {
+//            R.id.search -> {
+//                startActivity(Intent(this, MainActivity::class.java))
+//                true
+//            }
+//            R.id.alarm -> {
+//                startActivity(Intent(this, MainActivity::class.java))
+//                true
+//            }
+//            else -> false
+//        }
+//        }
 
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -125,10 +129,16 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
     override fun onGetProductInfoSuccess(response: ProductResponse) {
 //        product_img.add(ProductImg(response.result))
         Log.d("결과",response.result.toString())
+
+
+//        for (data in response.result.)
+//        for (station in response.response?.body?.monitoringStations!!) {
+//            near_station = station.stationName.toString()
+//            add = station.addr.toString()
+//        }
     }
-
     override fun onGetProductInfoFailure(message: String) {
-
+        Log.d("오류",message.toString())
     }
 
 
