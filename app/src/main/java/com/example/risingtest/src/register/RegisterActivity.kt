@@ -102,6 +102,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(ActivityRegisterB
         showCustomToast("오류 : $message")
     }
 
+    // 자동 로그인 jwt
     fun autologin(jwt : String){
         val editor: SharedPreferences.Editor =
             ApplicationClass.sSharedPreferences.edit() //sharedPreferences를 제어할 editor를 선언

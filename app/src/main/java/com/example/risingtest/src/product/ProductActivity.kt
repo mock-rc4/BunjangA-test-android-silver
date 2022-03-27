@@ -1,7 +1,6 @@
 package com.example.risingtest.src.product
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -10,20 +9,16 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityProductBinding
-import com.example.risingtest.src.MainActivity
-import com.example.risingtest.src.main.home.HomeFragment
 import com.example.risingtest.src.product.models.ProductResponse
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
-import com.google.android.material.internal.ViewUtils.dpToPx
-import org.w3c.dom.Text
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -46,6 +41,7 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         toolbarScroll()
         productScroll()
         addTag()
+        payBtn()
 
         // 상품 idx 가져오기
         productIdx = intent.getSerializableExtra("idx") as Int
@@ -139,7 +135,7 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
             }
         })
         //init indicator
-        binding.ciProductImg.createDotPanel(product_img.size, R.drawable.shape_circle_gray, R.drawable.shape_circle_red,0)
+        binding.ciProductImg.createDotPanel(product_img.size, R.drawable.shape_circle_gray, R.drawable.shape_rect_red,0)
     }
 
     override fun onGetProductInfoSuccess(response: ProductResponse) {
@@ -229,6 +225,20 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
 
     fun Context.dpToPx(dp : Int) : Int
     = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics).roundToInt()
+
+    // 번개페이 안전결제 클릭
+    fun payBtn(){
+        binding.tvBuyProduct.setOnClickListener {
+            val bottomSheetView = layoutInflater.inflate(R.layout.fragment_buy_product_bottom_sheet, null)
+            val bottomSheetDialog = BottomSheetDialog(this)
+            bottomSheetDialog.setContentView(bottomSheetView)
+
+            binding.tvBuyProduct.setOnClickListener {
+                val bottomDialogFragment = SelectBuyMethodBottomSheetDialog()
+                bottomDialogFragment.show(supportFragmentManager,"selectBottomView")
+            }
+        }
+    }
 
 //    fun scroll(){
 //        binding.appbar.setOnScrollChangeListener { p0, p1, p2, p3, p4 ->

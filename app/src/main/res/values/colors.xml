@@ -18,6 +18,7 @@
     <color name="light_light_gray">#D4D2DE</color>
     <color name="light_dark_gray">#A2A2A2</color>
     <color name="light_light_dark_gray">#DCDCDC</color>
+    <color name="light_light_light_light_gray">#F9F9F9</color>
     <color name="bunjang_color">#C70011</color>
     <color name="gray_line">#EBEBEB</color>
     <color name="green">#1C9975</color>
@@ -28,4 +29,9 @@
     <color name="light_yello">#FFFAE8</color>
     <color name="bunjang_light_light_color">#F62A30</color>
     <color name="bunjang_light_pink">#F63546</color>
+    <color name="light_dark_yellow">#FFF4D1</color>
+    <color name="dark_yellow">#F8DB00</color>
+    <color name="light_green">#EAF8F5</color>
+    <color name="dark_green">#20946C</color>
+    <color name="dark_gray">#696969</color>
 </resources>

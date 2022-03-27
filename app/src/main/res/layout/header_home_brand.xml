@@ -44,7 +44,7 @@
             android:textStyle="bold"
             android:textSize="15sp"
             android:layout_marginTop="@dimen/activity_more_margin"
-            android:background="@drawable/shape_circle_red"
+            android:background="@drawable/shape_rect_red"
             style="@style/Widget.AppCompat.Button.Borderless"/>
     </LinearLayout>
 
