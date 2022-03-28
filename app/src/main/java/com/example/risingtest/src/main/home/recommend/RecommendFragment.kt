@@ -1,6 +1,8 @@
 package com.example.risingtest.src.main.home.recommend
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -9,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseFragment
 import com.example.risingtest.databinding.FragmentChildHomeRecommendBinding
+import com.example.risingtest.src.main.home.recommend.models.RecommendResponse
 
 data class ProductData(var product_name : String, var product_price : String,
-                       var product_img : Int, var address : String, var time : String, var idx : Int)
+                       var product_img : String, var address : String, var time : String, var idx : Int, var productLike : String, var safety : String)
 
-class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(FragmentChildHomeRecommendBinding::bind, R.layout.fragment_child_home_recommend) {
+class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(FragmentChildHomeRecommendBinding::bind, R.layout.fragment_child_home_recommend), RecommendFragmentView {
 
     private lateinit var recyclerViewAdapter: RecommendRecyclerViewAdapter
     var dataList = ArrayList<ProductData>()
@@ -21,19 +24,11 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initBestSellerRecycelrView()
+        Handler(Looper.getMainLooper()).postDelayed({
+            initBestSellerRecycelrView()
+        }, 500)
 
-        dataList.add(ProductData("cos 코스 퀄티드 미니백ddddddd", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",1))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백dddddd", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",2))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",3))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",4))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",5))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",6))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",7))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",8))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",9))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",10))
-        dataList.add(ProductData("cos 코스 퀄티드 미니백", "90,000원", R.drawable.ic_product, "부평구 부평4동", "3시간 전",11))
+        RecommendService(this).tryRecommendProducts()
 
     }
 
@@ -51,5 +46,31 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
         val frag = RecommendFragment()
         frag.arguments=args
         return frag
+    }
+
+    override fun onGetRecommendSuccess(response: RecommendResponse) {
+        var i = 0
+        var j = 0
+        for (list in response.result!!.listIterator()) {
+            if(i==0){
+
+            }else {
+                for(data in list.listIterator()){
+                    for (index in list.listIterator(j)) {
+                        dataList.add(ProductData(list.get(j).productName.toString(),list.get(j).price.toString(), list.get(j).imageUrl.toString(), list.get(j).directtrans.toString(),
+                            list.get(j).createAt.toString(), list.get(j).idx!!, list.get(j).productLike.toString(), list.get(j).saftyPay.toString()))
+                        Log.d("data",index.toString())
+                        j++
+                    }
+                }
+            }
+            i++
+        }
+
+
+    }
+
+    override fun onGetRecommendFailure(message: String) {
+        Log.d("기?","<?")
     }
 }

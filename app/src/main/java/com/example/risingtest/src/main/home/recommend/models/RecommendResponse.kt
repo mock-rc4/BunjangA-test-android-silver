@@ -1,9 +1,9 @@
-package com.example.risingtest.src.product.models
+package com.example.risingtest.src.main.home.recommend.models
 
 
 import com.google.gson.annotations.SerializedName
 
-data class ProductResponse(
+data class RecommendResponse(
     @SerializedName("code")
     val code: Int?,
     @SerializedName("isSuccess")
@@ -11,5 +11,5 @@ data class ProductResponse(
     @SerializedName("message")
     val message: String?,
     @SerializedName("result")
-    val result: Result?
+    val result: List<List<Result>>?
 )

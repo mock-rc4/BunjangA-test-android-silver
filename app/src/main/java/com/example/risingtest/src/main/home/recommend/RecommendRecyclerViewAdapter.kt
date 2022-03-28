@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.risingtest.databinding.RvMainRecoomendItemBinding
 import com.example.risingtest.src.product.ProductActivity
 
@@ -19,7 +21,21 @@ class RecommendRecyclerViewAdapter(private val context: Context, private val dat
             binding.tvProductName.text = data.product_name
             binding.tvAddress.text = data.address
             binding.tvTime.text = data.time
-            binding.ivProudctImg.setImageResource(data.product_img)
+            binding.tvZzimCount.text = data.productLike
+            binding.tvProductPrice.text = data.product_price+"원"
+
+            Glide
+                .with(binding.ivProudctImg.context)
+                .load(data.product_img)
+                .into(binding.ivProudctImg)
+
+            if(data.safety=="1"){
+                binding.tvSafey.visibility= View.VISIBLE
+                binding.ivProudctPay.visibility=View.VISIBLE
+            }else {
+                binding.tvSafey.visibility= View.GONE
+                binding.ivProudctPay.visibility=View.GONE
+            }
 
             itemView.setOnClickListener {
                 Intent(context, ProductActivity::class.java).apply {
@@ -28,10 +44,7 @@ class RecommendRecyclerViewAdapter(private val context: Context, private val dat
                 }.run { context.startActivity(this) }
             }
 
-//            Glide
-//                .with(binding.ivBook.context)
-//                .load(data.img)
-//                .into(binding.ivBook)
+
         }
     }
 

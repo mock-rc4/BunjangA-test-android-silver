@@ -12,16 +12,19 @@
         app:layout_constraintTop_toTopOf="parent">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="200dp">
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                app:cardElevation="0dp"
                 app:cardCornerRadius="10dp">
                 <ImageView
                     android:id="@+id/iv_proudct_img"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic_product"
+                    android:scaleType="fitXY"
                     android:adjustViewBounds="true"/>
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cb_zzim"
@@ -31,7 +34,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginEnd="@dimen/activity_margin"
                     android:layout_marginTop="@dimen/activity_margin"
-                    android:background="@drawable/ic_zzim"
+                    android:background="@drawable/checkbox_zzim"
                     android:button="@null"
                     android:layout_gravity="top|right" />
             </androidx.cardview.widget.CardView>
@@ -64,6 +67,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_product_price"
             app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
             android:text="안전"
             android:textSize="13sp"
             android:textColor="@color/green"/>
@@ -111,6 +115,7 @@
         android:id="@+id/iv_proudct_pay"
         android:layout_width="40dp"
         android:layout_height="30dp"
+        android:visibility="gone"
         android:src="@drawable/ic_pay_logo"
         app:layout_constraintTop_toBottomOf="@id/ll_address"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +132,7 @@
             android:layout_height="15dp"
             android:src="@drawable/ic_zzim_count"/>
         <TextView
+            android:id="@+id/tv_zzim_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"

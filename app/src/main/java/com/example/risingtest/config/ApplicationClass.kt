@@ -34,6 +34,7 @@ class ApplicationClass : Application() {
     override fun onCreate() {
         UserLoginretrofitInstance()
         productInfoInstance()
+        homeRecommendInstance()
         initRetrofitInstance()
         super.onCreate()
         sSharedPreferences =
@@ -70,6 +71,15 @@ class ApplicationClass : Application() {
             .build()
     }
 
+    // 홈화면 추천상품
+    private fun homeRecommendInstance(){
+        sRetrofit = Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    // 제품 상세 페이지
     private fun productInfoInstance(){
         sRetrofit = Retrofit.Builder()
             .baseUrl(API_URL)

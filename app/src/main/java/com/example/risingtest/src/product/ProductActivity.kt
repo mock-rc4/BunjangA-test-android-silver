@@ -5,12 +5,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityProductBinding
@@ -24,13 +28,14 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 
-data class ProductImg(val img: Int)
+data class ProductImg(val img: String)
 class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBinding::inflate), ProductActivityView {
 
     var product_img = ArrayList<ProductImg>()
     private var productIdx : Int = 0
     private lateinit var product_viewPager: ProductViewPagerAdapter
     private var product_img_size : Int = product_img.size
+    private val image = arrayOf<String>()
 //    private var product_indicator_dot = ArrayList<ImageView>(product_img_size)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,12 +111,12 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
     // 상품이미지 뷰페이저
     fun setViewPager(){
 
-        product_img.add(ProductImg(R.drawable.ic_product_img_sample))
-        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
-        product_img.add(ProductImg(R.drawable.ic_product_img_sample))
-        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
-        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
-        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
+//        product_img.add(ProductImg(R.drawable.ic_product_img_sample))
+//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
+//        product_img.add(ProductImg(R.drawable.ic_product_img_sample))
+//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
+//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
+//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
 
         product_viewPager = ProductViewPagerAdapter(this, product_img)
         binding.vpProductImg.adapter = product_viewPager
@@ -139,11 +144,54 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
     }
 
     override fun onGetProductInfoSuccess(response: ProductResponse) {
-//        product_img.add(ProductImg(response.result))
-        Log.d("결과",response.result.toString())
 
+        binding.tvProductPrice.text = response.result?.price.toString()
+        binding.tvProductPriceSmall.text = response.result?.price.toString()
+        binding.tvProductName.text = response.result?.productName.toString()
+        binding.tvProductNameSmall.text = response.result?.productName.toString()
+        binding.tvViewCount.text = response.result?.viewCount.toString()
+        binding.tvZzimCount.text = response.result?.likeCount.toString()
 
-//        for (data in response.result.)
+        binding.tvAddress.text = response.result?.directtrans.toString()
+        binding.tvProductCount.text = response.result?.amount.toString()+"개"
+        binding.tvProductWriting.text = response.result?.productDesc.toString()
+        binding.tvCategoryName.text = response.result?.categoryName.toString()
+
+        if(response.result?.saftyPay ==1){
+            binding.tvSafety.visibility=View.VISIBLE
+        }
+        response.result?.directtrans?.let { binding.tvAddress.setText(it) }
+        if(response.result?.productCondition==1) {
+            binding.tvProductNewOrOld.text = "중고"
+        }else {
+            binding.tvProductNewOrOld.text = "새상품"
+        }
+        if(response.result?.includeFee==1){
+            binding.tvProductDeliveryFee.text = "배송비포함"
+            binding.tvProductDeliveryFeeSmall.text = "배송비포함"
+        }else {
+            binding.tvProductDeliveryFee.text = "배송비별도"
+            binding.tvProductDeliveryFeeSmall.text = "배송비별도"
+        }
+        Glide
+            .with(binding.ivProfileImage.context)
+            .load(response.result?.profileImage)
+            .into(binding.ivProfileImage)
+        Glide
+            .with(binding.ivProductImgSmall.context)
+            .load(response.result?.profileImage)
+            .into(binding.ivProductImgSmall)
+
+        binding.tvShopName.text = response.result?.shopName.toString()
+        binding.tvStoreNameSmall.text = response.result?.shopName.toString()
+        binding.tvFollowCount.text = response.result?.follower.toString()
+
+        val addee = response.result?.imageUrl
+        addee?.let { ProductImg(it) }?.let { product_img.add(it) }
+
+//        for (data in response.result?.imageUrl) {
+//            product_img.add(data)
+//        }
 //        for (station in response.response?.body?.monitoringStations!!) {
 //            near_station = station.stationName.toString()
 //            add = station.addr.toString()
