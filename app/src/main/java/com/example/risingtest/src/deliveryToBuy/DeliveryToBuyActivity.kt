@@ -13,9 +13,7 @@ import com.example.risingtest.databinding.ActivityDeliveryToBuyBinding
 import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.deliveryToBuy.models.DeliveryInfoResponse
 import com.example.risingtest.src.deliveryToBuy.models.DeliveryRequest
-import com.example.risingtest.src.register.RegisterService
-import com.example.risingtest.src.register.models.PostSignUpRequest
-import com.github.ybq.android.spinkit.animation.AnimationUtils.start
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class DeliveryToBuyActivity : BaseActivity<ActivityDeliveryToBuyBinding>(ActivityDeliveryToBuyBinding::inflate),
@@ -41,6 +39,8 @@ class DeliveryToBuyActivity : BaseActivity<ActivityDeliveryToBuyBinding>(Activit
         coinAni()
         PayWayBtnCheck()
         getInfo()
+        bottomSheet()
+        registerAddressSheet()
 
         binding.btnPayment.setOnClickListener {
 
@@ -94,6 +94,11 @@ class DeliveryToBuyActivity : BaseActivity<ActivityDeliveryToBuyBinding>(Activit
 
         binding.tvProductName.text = productName
         binding.tvProductPrice.text = totalPaymentAmount
+        binding.tvProductPayPay.text = totalPaymentAmount+"원"
+        binding.tvAllPay.text = totalPaymentAmount+"원"
+        binding.tvProductPay.text = totalPaymentAmount
+
+        Log.d("이미지이미지", productImg)
         Glide
             .with(binding.ivProductImg.context)
             .load(productImg)
@@ -101,9 +106,9 @@ class DeliveryToBuyActivity : BaseActivity<ActivityDeliveryToBuyBinding>(Activit
 
     }
 
+    // 구매 API
     fun payment(){
 
-        Log.d("gkgk","gkgk")
         binding.btnPayment.setOnClickListener {
 
             val postRequest = DeliveryRequest(productIdx = productIdx, totalPaymentAmount = totalPaymentAmount,
@@ -114,16 +119,33 @@ class DeliveryToBuyActivity : BaseActivity<ActivityDeliveryToBuyBinding>(Activit
         }
     }
 
-//    fun RegisterBtnClick(){
-//        binding.btnRegister.setOnClickListener {
-//            shopName = binding.edtStoreName.text.toString()
-//
-//            val postRequest = PostSignUpRequest(userName = userName, userBirth = userBirth,
-//                phoneNumber = phoneNumber, userPwd = userPwd, shopName = shopName)
-//            showLoadingDialog(this)
-//            RegisterService(this).tryPostSignUp(postRequest)
-//        }
-//    }
+    // 배송 요청사항
+    fun bottomSheet(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.fragment_address_bottom_sheet, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        binding.clAskDeliveryService.setOnClickListener {
+            Log.d("ajdi","dd")
+            val bottomDialogFragment = AddressBottomShhetDialog()
+            bottomDialogFragment.show(supportFragmentManager,"selectBottomView")
+        }
+
+    }
+
+    // 배송지 등록
+    fun registerAddressSheet(){
+        val bottomSheetView = layoutInflater.inflate(R.layout.fragment_set_address_bottom_sheet, null)
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        binding.clSetAddress.setOnClickListener {
+            val bottomDialogFragment = SelectAddressBottomSheetDialog()
+            bottomDialogFragment.show(supportFragmentManager,"selectBottomView")
+        }
+
+    }
+
 
     override fun onPostPaySuccess(response: DeliveryInfoResponse) {
         if(response.code==1000){

@@ -97,7 +97,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
         bottomSheetDialog.setContentView(bottomSheetView)
 
         binding.tvLoginOther.setOnClickListener {
-            Log.d("dho","dho")
             val bottomDialogFragment = OtherLoginBottomSheetDialog()
             bottomDialogFragment.show(supportFragmentManager,"selectBottomView")
         }

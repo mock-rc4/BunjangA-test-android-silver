@@ -16,6 +16,8 @@
             android:src="@drawable/ic_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ScrollView
@@ -91,6 +93,7 @@
                 android:layout_marginTop="@dimen/activity_large_margin"
                 android:text="배송지"/>
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_set_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rect_white_dark_gray"
@@ -125,7 +128,7 @@
                     android:background="@color/dark_green"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/ask_delivery_service"
+                android:id="@+id/cl_ask_delivery_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rect_white_dark_gray"
@@ -283,6 +286,7 @@
                         android:text="상품금액"
                         android:textSize="15sp"/>
                     <TextView
+                        android:id="@+id/tv_product_pay_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="390,000원"
@@ -315,7 +319,7 @@
                         android:id="@+id/tv_product_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+390,000원"
+                        android:text="+0원"
                         android:textSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -330,7 +334,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="390,000원"
+                            android:text="0원"
                             android:textColor="@color/light_light_gray"
                             android:textStyle="bold"
                             android:textSize="15sp"
@@ -339,7 +343,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
                         <View
-                            android:layout_width="80dp"
+                            android:layout_width="20dp"
                             android:layout_height="2dp"
                             android:background="@color/light_light_gray"
                             app:layout_constraintTop_toTopOf="parent"
@@ -372,6 +376,7 @@
                         android:textSize="15sp"
                         android:text="결제금액"/>
                     <TextView
+                        android:id="@+id/tv_product_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="400,150원"
@@ -421,6 +426,7 @@
                         android:textColor="@color/dark_gray"
                         android:text="총 결제금액"/>
                     <TextView
+                        android:id="@+id/tv_all_pay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="400,150원"
@@ -822,50 +828,58 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="60dp"
                     android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
-                    <RadioButton
+                    <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/rbtn_check"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:button="@null"
-                        android:background="@drawable/ic_uncheck"/>
-                    <TextView
-                        android:id="@+id/tv_check"
-                        android:layout_width="wrap_content"
+                        android:background="@drawable/checkbox_check"/>
+                    <LinearLayout
+                        android:layout_width="320dp"
                         android:layout_height="wrap_content"
-                        android:text="개인정보 제3자 제공동의와 결제대행 서비스 이용약관에 동의합니다."
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/rbtn_check"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/tv_check_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin"
-                        app:layout_constraintTop_toBottomOf="@id/tv_check"
-                        app:layout_constraintLeft_toRightOf="@id/rbtn_check"
-                        android:text="자세히 보기"
-                        android:textSize="13sp"
-                        android:textColor="@color/black"/>
-                    <View
-                        android:id="@+id/view_check_detail"
-                        android:layout_width="68dp"
-                        android:layout_height="1dp"
-                        app:layout_constraintLeft_toRightOf="@id/rbtn_check"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_check_detail"
-                        android:background="@color/black"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="@color/light_gray"
-                        app:layout_constraintLeft_toRightOf="@id/rbtn_check"
-                        app:layout_constraintTop_toBottomOf="@id/view_check_detail"
-                        android:layout_marginTop="@dimen/activity_more_margin"
-                        android:text="'번개장터_인증폰', 'BGZT Lab ', 'BGZT Lab 2', 'BGZT 컬렉션' 상점의 판매상품을 제외한 모든 상품들에 대하여, 번개장터(주)는 통신판매중개자로서 중고거래마켓 번개장터의 거래 당사자가 아니며, 입점판매자가 등록한 상품정보 및 거래에 대해 책임을 지지 않습니다."/>
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="개인정보 제3자 제공동의와 결제대행 서비스 이용약관에 동의합니다."
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintLeft_toRightOf="@id/rbtn_check"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="20sp"/>
+                        <TextView
+                            android:id="@+id/tv_check_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            app:layout_constraintTop_toBottomOf="@id/tv_check"
+                            app:layout_constraintLeft_toRightOf="@id/rbtn_check"
+                            android:text="자세히 보기"
+                            android:textSize="13sp"
+                            android:textColor="@color/black"/>
+                        <View
+                            android:id="@+id/view_check_detail"
+                            android:layout_width="68dp"
+                            android:layout_height="1dp"
+                            app:layout_constraintLeft_toRightOf="@id/rbtn_check"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_check_detail"
+                            android:background="@color/black"/>
+                        <TextView
+                            android:layout_width="300dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            android:textColor="@color/light_gray"
+                            app:layout_constraintLeft_toRightOf="@id/rbtn_check"
+                            app:layout_constraintTop_toBottomOf="@id/view_check_detail"
+                            android:layout_marginTop="@dimen/activity_more_margin"
+                            android:text="'번개장터_인증폰', 'BGZT Lab ', 'BGZT Lab 2', 'BGZT 컬렉션' 상점의 판매상품을 제외한 모든 상품들에 대하여, 번개장터(주)는 통신판매중개자로서 중고거래마켓 번개장터의 거래 당사자가 아니며, 입점판매자가 등록한 상품정보 및 거래에 대해 책임을 지지 않습니다."/>
+                    </LinearLayout>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.appcompat.widget.AppCompatButton

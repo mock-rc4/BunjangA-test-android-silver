@@ -71,6 +71,5 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
     }
 
     override fun onGetRecommendFailure(message: String) {
-        Log.d("기?","<?")
     }
 }

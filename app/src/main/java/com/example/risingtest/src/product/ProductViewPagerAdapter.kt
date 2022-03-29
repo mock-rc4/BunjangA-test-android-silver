@@ -30,18 +30,15 @@ class ProductViewPagerAdapter(context: Context, private val productImg: ArrayLis
     //position에 해당하는 페이지 생성
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         binding = ViewPagerProductBinding.inflate(inflater, container, false)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            Glide
-                .with(binding.ivProductImg.context)
-                .load(productImg[position])
-                .into(binding.ivProductImg)
-
-            Log.d("이미지 사진 URL", productImg[position].toString())
-            container.addView(binding.root)
-        }, 1000)
-
         Log.d("이미지 사진 URL", productImg[position].toString())
+
+        Glide
+            .with(binding.ivProductImg.context)
+            .load(productImg[position])
+            .into(binding.ivProductImg)
+
+        container.addView(binding.root)
+
         return binding.root
     }
 
@@ -60,5 +57,6 @@ class ProductViewPagerAdapter(context: Context, private val productImg: ArrayLis
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return (view==`object`)
     }
+
 }
 

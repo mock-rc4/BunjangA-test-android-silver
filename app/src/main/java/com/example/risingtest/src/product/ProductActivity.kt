@@ -13,7 +13,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.viewpager.widget.ViewPager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityProductBinding
@@ -22,9 +24,6 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -37,10 +36,10 @@ data class ProductInfo(val productIdx : String, val totalPaymentAmount : String,
 
 class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBinding::inflate), ProductActivityView {
 
-    var product_img = ArrayList<ProductImg>()
+    val product_img = mutableListOf<String>()
     var productInfo = ArrayList<ProductInfo>()
 
-    private lateinit var product_viewPager: ProductViewPagerAdapter
+    private lateinit var product_viewPager: ProductViewPager
     private var product_img_size : Int = product_img.size
 
     private var totalPaymentAmount : String = ""
@@ -59,27 +58,11 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         productScroll()
         addTag()
         payBtn()
-        postInfo()
-
-        CoroutineScope(Dispatchers.Main).launch {
-            setViewPager()
-        }
-
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            setViewPager()
-//        }, 500)
-
 
         // 상품 idx 가져오기
         productIdx = intent.getSerializableExtra("idx") as Int
 
         ProductService(this).tryGetProductInfoBooks(productIdx)
-//        indicator()
-//        product_img_size=product_img.size
-//
-//        for (i in 0 until product_img_size){
-//            binding.llIndicator.addView(createIndicator())
-//        }
     }
 
     private fun createIndicator(): View? {
@@ -104,33 +87,23 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         return true
     }
 
-    // 상품이미지 뷰페이저
-    fun setViewPager(){
-
-        product_viewPager = ProductViewPagerAdapter(this, product_img)
-        binding.vpProductImg.adapter = product_viewPager
-        product_img_size = product_img.size
-
-        indicator()
-    }
-
 
     // 인디케이터
-    fun indicator() {
-        binding.vpProductImg.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
-            override fun onPageScrollStateChanged(p0: Int) {
-            }
-
-            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-            }
-
-            override fun onPageSelected(p0: Int) {
-                binding.ciProductImg.selectDot(p0)
-            }
-        })
-        //init indicator
-        binding.ciProductImg.createDotPanel(product_img.size, R.drawable.shape_circle_gray, R.drawable.shape_rect_red,0)
-    }
+//    fun indicator() {
+//        binding.vpProductImg.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+//            override fun onPageScrollStateChanged(p0: Int) {
+//            }
+//
+//            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+//            }
+//
+//            override fun onPageSelected(p0: Int) {
+//                binding.ciProductImg.selectDot(p0)
+//            }
+//        })
+//        //init indicator
+//        binding.ciProductImg.createDotPanel(product_img.size, R.drawable.shape_circle_gray, R.drawable.shape_rect_red,0)
+//    }
 
     override fun onGetProductInfoSuccess(response: ProductResponse) {
 
@@ -146,6 +119,8 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         binding.tvProductCount.text = response.result?.amount.toString()+"개"
         binding.tvProductWriting.text = response.result?.productDesc.toString()
         binding.tvCategoryName.text = response.result?.categoryName.toString()
+
+        Log.d("태그", response.result?.tag.toString())
 
         if(response.result?.saftyPay ==1){
             binding.tvSafety.visibility=View.VISIBLE
@@ -180,12 +155,32 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
             for (data in str_arr) {
                 if(i==1){
                     productImg = data
-                    product_img.add(ProductImg(data))
                 }
-                product_img.add(ProductImg(data))
                 i++
             }
         }
+
+        val imgUrl = response.result?.imageUrl?.split(",")
+        if (imgUrl != null) {
+            product_img.addAll(imgUrl)
+        }
+
+        if(response.result?.tag.isNullOrEmpty()){
+            val temptag = "태그가 없습니다."
+            binding.flexBoxLayout.addchip(temptag)
+        }else {
+            //binding.flexBoxLayout.addchip(name)
+//            binding.flexBoxLayout.addchip(name2)
+//            binding.flexBoxLayout.addchip(name3)
+
+        }
+
+//        product_viewPager = ProductViewPagerAdapter(this, product_img)
+        product_viewPager = ProductViewPager(this)
+        val pager = binding.vpProductImg
+        pager.adapter = product_viewPager
+        product_img_size = product_img.size
+
         productInfo.add(ProductInfo(productIdx.toString(),totalPaymentAmount, address, safetyTax, transactionMethod, productName, productImg ))
     }
     override fun onGetProductInfoFailure(message: String) {
@@ -231,9 +226,9 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         val name : String = "#샤넬 ㄴㄴㄴㄴㄴㄴ"
         val name2 : String = "#샤넬"
         val name3 : String = "#샤넬3432"
-        binding.flexBoxLayout.addchip(name)
-        binding.flexBoxLayout.addchip(name2)
-        binding.flexBoxLayout.addchip(name3)
+//        binding.flexBoxLayout.addchip(name)
+//        binding.flexBoxLayout.addchip(name2)
+//        binding.flexBoxLayout.addchip(name3)
 
     }
 
@@ -279,38 +274,20 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         }
     }
 
-    fun postInfo(){
-//        productInfo.set()
-//        ProductInfo.(ProductInfo(productIdx.toString(),totalPaymentAmount, address))
-//        ProductInfo.add(ProductInfo(productIdx.toString(),totalPaymentAmount, address))
-//        productInfo.set(0,productIdx.toString())
-//        productInfo.set(1,totalPaymentAmount)
-//        productInfo.set(2,address)
+    inner class ProductViewPager(fa : FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = product_img.size
 
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                in 0 until this.itemCount -> {
+                    Log.d("produt_img",product_img[position].toString())
+                    ProductImgFragment(product_img[position])
+                }
+                else -> ProductImgFragment(product_img[0])
+            }
+        }
 
     }
-
-//    fun scroll(){
-//        binding.appbar.setOnScrollChangeListener { p0, p1, p2, p3, p4 ->
-//            val view = p0.scrollBarSize
-//            Log.d("view",view.toString())
-//            if(p2>p4){
-//                // 아래로 스크롤 할 때
-////                HomeFragment.scorll_x = p1
-////                HomeFragment.scroll_oldx = p3
-//            }
-//            else if(p2<p4){
-//                // 위로 스크롤 했을 때
-////                HomeFragment.scorll_x = p1
-////                HomeFragment.scroll_oldx = p3
-//            }
-////            binding.seekBar.setProgress(40+scorll_x)
-////            if(HomeFragment.scorll_x ==11){
-////            }else {
-////                binding.scrollView.translationX = HomeFragment.scorll_x.toFloat()
-////            }
-//        }
-//    }
 
 
     // 인디케이터 뷰 생성
