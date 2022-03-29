@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager.widget.ViewPager
-import com.bumptech.glide.Glide
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivityProductBinding
@@ -23,30 +22,53 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.roundToInt
 
 
 data class ProductImg(val img: String)
+data class ProductInfo(val productIdx : String, val totalPaymentAmount : String,
+                       val address : String, val safetyTax : String,
+                       val transactionMethod : String, var productName : String, val productImg :String)
+
 class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBinding::inflate), ProductActivityView {
 
     var product_img = ArrayList<ProductImg>()
-    private var productIdx : Int = 0
+    var productInfo = ArrayList<ProductInfo>()
+
     private lateinit var product_viewPager: ProductViewPagerAdapter
     private var product_img_size : Int = product_img.size
-    private val image = arrayOf<String>()
-//    private var product_indicator_dot = ArrayList<ImageView>(product_img_size)
+
+    private var totalPaymentAmount : String = ""
+    private var address : String = ""
+    private var productIdx : Int = 0
+    private var safetyTax : String = ""
+    private var transactionMethod : String = ""
+    private var productName : String =""
+    private var productImg : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         toolbar()
-        setViewPager()
         toolbarScroll()
         productScroll()
         addTag()
         payBtn()
+        postInfo()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            setViewPager()
+        }
+
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            setViewPager()
+//        }, 500)
+
 
         // 상품 idx 가져오기
         productIdx = intent.getSerializableExtra("idx") as Int
@@ -75,48 +97,15 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         toolbar.inflateMenu(R.menu.toolbar_product_menu) // 메뉴xml과 상단바 연결 (프래그먼트xml에서 연결했으면 안해도 됨) //
-        // 상단바 메뉴 클릭시
-//        toolbar.setOnMenuItemClickListener{ when(it.itemId) {
-//            R.id.search -> {
-//                startActivity(Intent(this, MainActivity::class.java))
-//                true
-//            }
-//            R.id.alarm -> {
-//                startActivity(Intent(this, MainActivity::class.java))
-//                true
-//            }
-//            else -> false
-//        }
-//        }
 
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_product_menu, menu)
         return true
     }
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-////        return when (item.itemId) {
-////            R.id.search -> {
-////                Toast.makeText(applicationContext, "Search Click", Toast.LENGTH_SHORT).show()
-////                true
-////            }
-////            R.id.share -> {
-////                Toast.makeText(applicationContext, "Option Click", Toast.LENGTH_SHORT).show()
-////                true
-////            }
-////            else -> super.onOptionsItemSelected(item)
-////        }
-//    }
 
     // 상품이미지 뷰페이저
     fun setViewPager(){
-
-//        product_img.add(ProductImg(R.drawable.ic_product_img_sample))
-//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
-//        product_img.add(ProductImg(R.drawable.ic_product_img_sample))
-//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
-//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
-//        product_img.add(ProductImg(R.drawable.ic_brand_detail_product_name))
 
         product_viewPager = ProductViewPagerAdapter(this, product_img)
         binding.vpProductImg.adapter = product_viewPager
@@ -148,6 +137,7 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
         binding.tvProductPrice.text = response.result?.price.toString()
         binding.tvProductPriceSmall.text = response.result?.price.toString()
         binding.tvProductName.text = response.result?.productName.toString()
+        productName=response.result?.productName.toString()
         binding.tvProductNameSmall.text = response.result?.productName.toString()
         binding.tvViewCount.text = response.result?.viewCount.toString()
         binding.tvZzimCount.text = response.result?.likeCount.toString()
@@ -173,29 +163,30 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
             binding.tvProductDeliveryFee.text = "배송비별도"
             binding.tvProductDeliveryFeeSmall.text = "배송비별도"
         }
-        Glide
-            .with(binding.ivProfileImage.context)
-            .load(response.result?.profileImage)
-            .into(binding.ivProfileImage)
-        Glide
-            .with(binding.ivProductImgSmall.context)
-            .load(response.result?.profileImage)
-            .into(binding.ivProductImgSmall)
+
+        totalPaymentAmount = response.result?.price.toString()
+        address = response.result?.directtrans.toString()
+        safetyTax = "0"
+        transactionMethod = response.result?.includeFee.toString()!!   // 택배비 포함
 
         binding.tvShopName.text = response.result?.shopName.toString()
         binding.tvStoreNameSmall.text = response.result?.shopName.toString()
         binding.tvFollowCount.text = response.result?.follower.toString()
 
-        val addee = response.result?.imageUrl
-        addee?.let { ProductImg(it) }?.let { product_img.add(it) }
+        var str_arr = response.result?.imageUrl?.split(",")
 
-//        for (data in response.result?.imageUrl) {
-//            product_img.add(data)
-//        }
-//        for (station in response.response?.body?.monitoringStations!!) {
-//            near_station = station.stationName.toString()
-//            add = station.addr.toString()
-//        }
+        var i = 1
+        if (str_arr != null) {
+            for (data in str_arr) {
+                if(i==1){
+                    productImg = data
+                    product_img.add(ProductImg(data))
+                }
+                product_img.add(ProductImg(data))
+                i++
+            }
+        }
+        productInfo.add(ProductInfo(productIdx.toString(),totalPaymentAmount, address, safetyTax, transactionMethod, productName, productImg ))
     }
     override fun onGetProductInfoFailure(message: String) {
         Log.d("오류",message.toString())
@@ -231,7 +222,6 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
                 }else {
                     binding.clProductToolbar.visibility=View.GONE
                 }
-                Log.d("vieir",verticalOffset.toString())
             }
 
         })
@@ -282,10 +272,22 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
             bottomSheetDialog.setContentView(bottomSheetView)
 
             binding.tvBuyProduct.setOnClickListener {
-                val bottomDialogFragment = SelectBuyMethodBottomSheetDialog()
+//                val bottomDialogFragment = SelectBuyMethodBottomSheetDialog()
+                val bottomDialogFragment = SelectBuyMethodBottomSheetDialog(productInfo)
                 bottomDialogFragment.show(supportFragmentManager,"selectBottomView")
             }
         }
+    }
+
+    fun postInfo(){
+//        productInfo.set()
+//        ProductInfo.(ProductInfo(productIdx.toString(),totalPaymentAmount, address))
+//        ProductInfo.add(ProductInfo(productIdx.toString(),totalPaymentAmount, address))
+//        productInfo.set(0,productIdx.toString())
+//        productInfo.set(1,totalPaymentAmount)
+//        productInfo.set(2,address)
+
+
     }
 
 //    fun scroll(){

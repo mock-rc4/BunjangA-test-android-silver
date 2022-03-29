@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.risingtest.databinding.RvMainRecoomendItemBinding
 import com.example.risingtest.src.product.ProductActivity
+import com.example.risingtest.src.product.ProductService
 
 class RecommendRecyclerViewAdapter(private val context: Context, private val dataList: ArrayList<ProductData>) : RecyclerView.Adapter<RecommendRecyclerViewAdapter.ItemViewHolder>() {
 
@@ -40,6 +41,7 @@ class RecommendRecyclerViewAdapter(private val context: Context, private val dat
             itemView.setOnClickListener {
                 Intent(context, ProductActivity::class.java).apply {
                     putExtra("idx",data.idx)
+                    Log.d("idx",data.idx.toString())
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run { context.startActivity(this) }
             }

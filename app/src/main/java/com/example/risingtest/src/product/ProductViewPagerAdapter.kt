@@ -1,17 +1,25 @@
 package com.example.risingtest.src.product
 
 import android.content.Context
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.example.risingtest.R
+import com.example.risingtest.databinding.RvMainRecoomendItemBinding
+import com.example.risingtest.databinding.ViewPagerHomeAdBinding
 import com.example.risingtest.databinding.ViewPagerLoginBinding
 import com.example.risingtest.databinding.ViewPagerProductBinding
 import com.example.risingtest.src.login.AdArrayList
+import com.example.risingtest.src.main.home.recommend.ProductData
 
 class ProductViewPagerAdapter(context: Context, private val productImg: ArrayList<ProductImg>) : PagerAdapter() {
 
@@ -21,17 +29,19 @@ class ProductViewPagerAdapter(context: Context, private val productImg: ArrayLis
 
     //position에 해당하는 페이지 생성
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-//        Glide.with(container).load(productImg[position]).into(holder.imageUrl)
-
         binding = ViewPagerProductBinding.inflate(inflater, container, false)
-//        binding.ivProductImg.setImageResource(productImg[position].img)
 
-        val product_img : ImageView = container.findViewById(R.id.iv_product_img)
-        Glide.with(container)
-            .load(productImg[position])
-            .into(product_img)
+        Handler(Looper.getMainLooper()).postDelayed({
+            Glide
+                .with(binding.ivProductImg.context)
+                .load(productImg[position])
+                .into(binding.ivProductImg)
 
-        container.addView(binding.root)
+            Log.d("이미지 사진 URL", productImg[position].toString())
+            container.addView(binding.root)
+        }, 1000)
+
+        Log.d("이미지 사진 URL", productImg[position].toString())
         return binding.root
     }
 

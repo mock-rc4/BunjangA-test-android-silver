@@ -6,6 +6,7 @@ import android.content.DialogInterface.OnShowListener
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class SelectBuyMethodBottomSheetDialog : BottomSheetDialogFragment() {
-
+class SelectBuyMethodBottomSheetDialog(private val productInfo : ArrayList<ProductInfo>) : BottomSheetDialogFragment() {
+//class SelectBuyMethodBottomSheetDialog() : BottomSheetDialogFragment() {
     private lateinit var binding : FragmentBuyProductBottomSheetBinding
 
     override fun onCreateView(
@@ -30,6 +31,13 @@ class SelectBuyMethodBottomSheetDialog : BottomSheetDialogFragment() {
         binding.llBuyDelivery.setOnClickListener {
             activity?.let {
                 var intent = Intent(context, DeliveryToBuyActivity::class.java)
+                intent.putExtra("productIdx", productInfo.get(0).productIdx)
+                intent.putExtra("totalPaymentAmount", productInfo.get(0).totalPaymentAmount)
+                intent.putExtra("address", productInfo.get(0).address)
+                intent.putExtra("safetyTax", productInfo.get(0).safetyTax)
+                intent.putExtra("transactionMethod", productInfo.get(0).transactionMethod)
+                intent.putExtra("productName", productInfo.get(0).productName)
+                intent.putExtra("productImg", productInfo.get(0).productImg)
                 startActivity(intent)
                 dialog?.dismiss()
             }

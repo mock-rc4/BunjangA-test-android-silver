@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="직거래, 안전결제로\n구매합니다."
+                android:text="택배거래, 안전결제로\n구매합니다."
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -61,6 +61,7 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tv_product_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -68,6 +69,7 @@
                         android:textColor="@color/black"
                         android:text="390,000원"/>
                     <TextView
+                        android:id="@+id/tv_product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="엘이디거울"
@@ -83,11 +85,78 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/activity_large_margin"
+                android:text="배송지"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect_white_dark_gray"
+                android:layout_marginTop="@dimen/activity_little_margin"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:paddingHorizontal="@dimen/activity_little_margin"
+                android:paddingVertical="@dimen/activity_little_margin">
+                <TextView
+                    android:id="@+id/tv_register_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="배송지를 등록해주세요"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/tv_add_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="등록"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:textColor="@color/dark_green"/>
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_add_address"
+                    android:background="@color/dark_green"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ask_delivery_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rect_white_dark_gray"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                android:paddingHorizontal="@dimen/activity_little_margin"
+                android:paddingVertical="@dimen/activity_little_margin">
+                <TextView
+                    android:id="@+id/tv_ask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="배송 요청사항 (선택)"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/ic_down"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:text="번개포인트"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginTop="@dimen/activity_large_margin"/>
+                android:layout_marginTop="50dp"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -800,6 +869,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_payment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_large_margin"

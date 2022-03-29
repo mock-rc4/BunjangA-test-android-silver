@@ -1,6 +1,8 @@
 package com.example.risingtest.src.product
 
+import android.content.Intent
 import com.example.risingtest.config.ApplicationClass
+import com.example.risingtest.src.main.home.recommend.RecommendFragmentView
 import com.example.risingtest.src.product.models.ProductResponse
 import retrofit2.Call
 import retrofit2.Callback

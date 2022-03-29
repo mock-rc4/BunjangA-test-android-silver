@@ -25,6 +25,9 @@ import com.example.risingtest.src.product.ProductActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Double.min
 import kotlin.math.abs
 import kotlin.math.min
@@ -54,6 +57,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
             true
         }
 
+//        Handler().postDelayed({
+//            setPage()
+//        },500)
+//
+//        CoroutineScope(Dispatchers.Main).launch {
+//            setPage()
+//        }
+//
+//        handler = Handler()
+
         binding.ivZzim.setOnClickListener {
             val intent = Intent(this.requireActivity(), ProductActivity::class.java)
             startActivity(intent)
@@ -72,6 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         toolbar(view)
         scroll()
         toolbarScroll()
+        setPage()
 //        binding.seekBar.setProgress(40)
 
 

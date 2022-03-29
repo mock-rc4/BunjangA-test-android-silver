@@ -36,6 +36,7 @@ class ApplicationClass : Application() {
         productInfoInstance()
         homeRecommendInstance()
         initRetrofitInstance()
+        payMentInstance()
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
@@ -81,6 +82,14 @@ class ApplicationClass : Application() {
 
     // 제품 상세 페이지
     private fun productInfoInstance(){
+        sRetrofit = Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    //  결제 페이지
+    private fun payMentInstance(){
         sRetrofit = Retrofit.Builder()
             .baseUrl(API_URL)
             .addConverterFactory(GsonConverterFactory.create())
