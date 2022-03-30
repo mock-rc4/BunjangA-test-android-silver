@@ -803,10 +803,15 @@
         android:gravity="center_vertical"
         android:background="@color/white"
         android:weightSum="6">
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_product_zzim"
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_product_zzim"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:background="@drawable/checkbox_product_zzim"
+            android:button="@null"
             android:layout_weight="1"/>
         <View
             android:layout_width="1dp"

@@ -1,34 +1,24 @@
 package com.example.risingtest.src.main.home
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.risingtest.R
 import com.example.risingtest.config.BaseFragment
 import com.example.risingtest.databinding.FragmentHomeBinding
-import com.example.risingtest.src.MainActivity
 import com.example.risingtest.src.main.home.brand.BrandFragment
-import com.example.risingtest.src.main.home.recommend.ProductData
 import com.example.risingtest.src.main.home.recommend.RecommendFragment
 import com.example.risingtest.src.product.ProductActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.Double.min
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -52,10 +42,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         super.onViewCreated(view, savedInstanceState)
 
         // 광고 뷰페이저 쓰레드
-        handler = Handler(Looper.getMainLooper()) {
-            setPage()
-            true
-        }
+//        handler = Handler(Looper.getMainLooper()) {
+//            setPage()
+//            true
+//        }
 
 //        Handler().postDelayed({
 //            setPage()
@@ -64,6 +54,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 //        CoroutineScope(Dispatchers.Main).launch {
 //            setPage()
 //        }
+        handler=Handler(Looper.getMainLooper()){
+            setPage()
+            true
+        }
 //
 //        handler = Handler()
 
@@ -111,6 +105,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
     // 메인화면 광고
     fun adViewPager(){
 
+//        val recommendAdapter = HomeViewPagerAdapter(this)
+//        recommendAdapter.addFragment(AdFragment())
+//        recommendAdapter.addFragment(AdFragment2())
+//        recommendAdapter.addFragment(AdFragment3())
+
+//        val viewpager: ViewPager2 = binding.vpHomeAd
+//        binding.vpHomeAd.adapter = recommendAdapter
+//        binding.vpHomeAd.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+
         adArrayList.add(AdArrayList("1",R.drawable.ic_ad_01))
         adArrayList.add(AdArrayList("2",R.drawable.ic_ad_02))
         adArrayList.add(AdArrayList("3",R.drawable.ic_ad_3))
@@ -118,10 +122,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         ad_viewPager = HomeAdViewPagerAdapter(this.requireActivity(), adArrayList)
         binding.vpHomeAd.adapter = ad_viewPager
+        // 넘길 때 효과 제거
+        val child = binding.vpHomeAd.getChildAt(0)
+        (child as? RecyclerView)?.overScrollMode = View.OVER_SCROLL_NEVER
 
         // 뷰페이저 넘기는 쓰레드
         val thread = Thread(PagerRunnable())
         thread.start()
+
     }
 
     // 뷰페이저 position
@@ -133,14 +141,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
         currentPosition++
     }
 
-    inner class PagerRunnable : Runnable {
+    //2초 마다 페이지 넘기기
+    inner class PagerRunnable:Runnable{
         override fun run() {
             while(true){
-                Thread.sleep(2000)
-                handler.sendEmptyMessage(0)
+                try {
+                    Thread.sleep(2000)
+                    handler.sendEmptyMessage(0)
+                } catch (e : InterruptedException){
+                    Log.d("interupt", "interupt발생")
+                }
             }
         }
     }
+//
+//    inner class PagerRunnable : Runnable {
+//        override fun run() {
+//            while(true){
+//                Thread.sleep(2000)
+//                handler.sendEmptyMessage(0)
+//            }
+//        }
+//    }
 
 //    //액션버튼 메뉴 액션바에 집어 넣기
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -213,6 +235,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::bind
 
         })
     }
+
 
 //    fun control_scroll(){
 //        ObjectAnimator.ofFloat(view, "ScrollX", scroll_oldx, scroll_oldx).app

@@ -118,7 +118,6 @@ class PasswordActivity : BaseActivity<ActivityPasswordBinding>(ActivityPasswordB
 
     override fun onPostUserSuccess(response: LoginResponse) {
         dismissLoadingDialog()
-        Log.d("무엇이 정답?:", response.toString())
         if(response.code==3014){
             // 비밀번호가 잘못되었을 때
             passwdFail()

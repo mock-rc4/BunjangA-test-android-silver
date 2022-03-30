@@ -43,5 +43,10 @@ data class Result(
     @SerializedName("uidx")
     val uidx: Int?,
     @SerializedName("viewCount")
-    val viewCount: Int?
+    val viewCount: Int?,
+//    @SerializedName("reviewCount")
+//    val reviewCount: Int?,
+//    @SerializedName("createAt")
+//    val createAt: Int?,
+
 )
