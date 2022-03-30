@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivitySetAddressBinding
 import com.example.risingtest.src.address.models.AddressRequest
+import com.example.risingtest.src.address.models.AddressResponse
+import com.example.risingtest.src.address.models.GetAddressResponse
 import com.example.risingtest.src.deliveryToBuy.models.DeliveryInfoResponse
 import com.example.risingtest.src.kakaoAddress.KakaoActivity
 import com.example.risingtest.src.register.RegisterService
@@ -27,7 +29,7 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
     var name : String = ""
     var phoneNumber : String = ""
     var address : String = ""
-    var addressDecs : String = ""
+    var addressDesc : String = ""
     var defaultAddress : String = ""
     var userIdx : String = ""
     private lateinit var recyclerViewAdapter: AddressRecyclerViewAdapter
@@ -42,14 +44,12 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
         addAddressBtnClick()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            initAddressRecycelrView()
-            isEmpty()
-        }, 500)
+            AddressService(this).tryGetAddress()
+//            isEmpty()
+        }, 1000)
 //        addressClick()
         binding.btnNext.visibility=View.GONE
 
-        dataList.add(AddressData("제갈은","블라블라블라ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","0102875928"))
-        dataList.add(AddressData("제갈은","블라블라블라ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","0102875928"))
     }
 
     // 주소 추가 눌렀을 때
@@ -67,6 +67,8 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
         recyclerViewAdapter = AddressRecyclerViewAdapter(this,dataList)
         binding.rvAddressList.adapter = recyclerViewAdapter
         binding.rvAddressList.layoutManager = LinearLayoutManager(this)
+
+        isEmpty()
 
     }
 
@@ -122,23 +124,41 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
             name = binding.edtName.text.toString()
             phoneNumber = binding.edtPhoneNumber.text.toString()
             address = binding.edtAddress.text.toString()
-            addressDecs = binding.edtDetailAddress.text.toString()
+            addressDesc = binding.edtDetailAddress.text.toString()
 //            userIdx = binding.edtName.text.toString()
             userIdx="1"
 
-//            val postRequest = AddressRequest(name = name, phoneNumber = phoneNumber,
-//                address = address, addressDecs = addressDecs, defaultAddress = defaultAddress, userIdx = userIdx)
-//            showLoadingDialog(this)
-//            AddressService(this).tryPostAddress(postRequest)
+            val postRequest = AddressRequest(name = name, phoneNumber = phoneNumber,
+                address = address, addressDesc = addressDesc, defaultAddress = defaultAddress, userIdx = userIdx)
+            AddressService(this).tryPostAddress(postRequest)
         }
     }
 
-    override fun onPostAddressSuccess(response: DeliveryInfoResponse) {
+    override fun onPostAddressSuccess(response: AddressResponse) {
         if(response.code==1000){
-            dataList.add(AddressData("제갈은","블라블라블라ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ","0102875928"))
+            showCustomToast("주소가 추가되었습니다.")
+            val intent = Intent(this, AddressActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
     override fun onPostAddressFailure(message: String) {
+    }
+
+    override fun onGetAddressSuccess(response: GetAddressResponse) {
+        if(response.code==1000){
+
+            for(index in response.result!!.listIterator()){
+                val address = index.address+" "+index.addressDesc
+                dataList.add(AddressData(index.name.toString(),address,index.phoneNumber.toString()))
+            }
+            initAddressRecycelrView()
+        }else if(response.code==2021) {
+            showCustomToast("이미 등록된 배송지입니다.")
+        }
+    }
+
+    override fun onGetAddressFailure(message: String) {
     }
 }

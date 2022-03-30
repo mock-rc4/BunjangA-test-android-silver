@@ -1,18 +1,19 @@
 package com.example.risingtest.src.address.models
 
+
 import com.google.gson.annotations.SerializedName
 
-data class AddressRequest(
-    @SerializedName("name")
-    val name: String?,
-    @SerializedName("phoneNumber")
-    val phoneNumber: String?,
+data class Result(
     @SerializedName("address")
     val address: String?,
     @SerializedName("addressDesc")
     val addressDesc: String?,
-    @SerializedName("defaultAddress")
-    val defaultAddress: String?,
+    @SerializedName("name")
+    val name: String?,
+    @SerializedName("phoneNumber")
+    val phoneNumber: String?,
+    @SerializedName("status")
+    val status: Int?,
     @SerializedName("userIdx")
-    val userIdx: String?
+    val userIdx: Int?
 )
