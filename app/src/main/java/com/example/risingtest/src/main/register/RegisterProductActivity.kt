@@ -29,7 +29,7 @@ class RegisterProductActivity : BaseActivity<ActivityProductRegisterBinding>(Act
         super.onCreate(savedInstanceState)
 
         // 1. 공용 저장소 권한이 있는지 확인
-        requirePermission(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
+//        requirePermission(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), PERM_STORAGE)
 
     }
 
@@ -53,25 +53,25 @@ class RegisterProductActivity : BaseActivity<ActivityProductRegisterBinding>(Act
     }
 
     // 권한이 승인됐다
-    fun permissionGranted(requestCode: Int) {
-        when(requestCode) {
-            PERM_STORAGE -> initViews()
-            PERM_CAMERA -> openCamera()
-        }
-    }
+//    fun permissionGranted(requestCode: Int) {
+//        when(requestCode) {
+//            PERM_STORAGE -> initViews()
+//            PERM_CAMERA -> openCamera()
+//        }
+//    }
 
     // 권한이 거절됐다면
-    fun permissionDenied(requestCode: Int) {
-        when(requestCode) {
-            PERM_STORAGE -> {
-                Toast.makeText(this, "공용 저장소 권한을 승인해야 앱을 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            PERM_CAMERA -> {
-                Toast.makeText(this, "카메라 권한을 승인해야 카메라를 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+//    fun permissionDenied(requestCode: Int) {
+//        when(requestCode) {
+//            PERM_STORAGE -> {
+//                Toast.makeText(this, "공용 저장소 권한을 승인해야 앱을 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
+//                finish()
+//            }
+//            PERM_CAMERA -> {
+//                Toast.makeText(this, "카메라 권한을 승인해야 카메라를 사용할 수 있습니다.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
@@ -102,26 +102,26 @@ class RegisterProductActivity : BaseActivity<ActivityProductRegisterBinding>(Act
 //        }
 //    }
 
-    fun requirePermission(permissions:Array<String>, requestCode: Int){
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            permissionGranted(requestCode)
-        }else {
-            // 권한이 없으면 권한 요청 -> 팝업
-            ActivityCompat.requestPermissions(this, permissions, requestCode)
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(grantResults.all { it == PackageManager.PERMISSION_GRANTED}) {
-            permissionGranted(requestCode)
-        }else {
-            permissionDenied(requestCode)
-        }
-    }
+//    fun requirePermission(permissions:Array<String>, requestCode: Int){
+//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+//            permissionGranted(requestCode)
+//        }else {
+//            // 권한이 없으면 권한 요청 -> 팝업
+//            ActivityCompat.requestPermissions(this, permissions, requestCode)
+//        }
+//    }
+//
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if(grantResults.all { it == PackageManager.PERMISSION_GRANTED}) {
+//            permissionGranted(requestCode)
+//        }else {
+//            permissionDenied(requestCode)
+//        }
+//    }
 
 }

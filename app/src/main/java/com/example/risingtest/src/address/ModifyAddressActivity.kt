@@ -31,8 +31,6 @@ class ModifyAddressActivity : BaseActivity<ActivityModifyAddressBinding>(Activit
         setInfo()
         btnclick()
 
-        Log.d("position", userIdx)
-
     }
 
 
@@ -46,7 +44,6 @@ class ModifyAddressActivity : BaseActivity<ActivityModifyAddressBinding>(Activit
             phoneNumber = intent.getStringExtra("phoneNumber").toString()
             userIdx = intent.getStringExtra("userIdx").toString()
             addressPosition = intent.getStringExtra("addressPosition").toString()
-            Log.d("여기는>?", addressPosition)
             //userIdx = intent.getStringExtra("position").toString()
 
         }

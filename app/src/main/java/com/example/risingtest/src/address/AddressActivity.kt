@@ -16,7 +16,8 @@ import com.example.risingtest.src.address.models.AddressResponse
 import com.example.risingtest.src.address.models.GetAddressResponse
 
 data class AddressData(var name : String, var address : String,
-                       var phoneNumber : String, var userIdx : String, var addressDesc : String, var address_first : String)
+                       var phoneNumber : String, var userIdx : String,
+                       var addressDesc : String, var address_first : String, var addressIdx : String)
 
 class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddressBinding::inflate), AddressActivityView {
 
@@ -145,7 +146,8 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
         if(response.code==1000){
             for(index in response.result!!.listIterator()){
                 val address = index.address+" "+index.addressDesc
-                dataList.add(AddressData(index.name.toString(),address,index.phoneNumber.toString(), index.userIdx.toString(), index.addressDesc.toString(), index.address.toString()))
+                var addressIdx = index.idx.toString()
+                dataList.add(AddressData(index.name.toString(),address,index.phoneNumber.toString(), index.userIdx.toString(), index.addressDesc.toString(), index.address.toString(), addressIdx))
             }
             initAddressRecycelrView()
         }else if(response.code==2021) {

@@ -221,7 +221,6 @@ class ProductActivity : BaseActivity<ActivityProductBinding>(ActivityProductBind
             binding.cbProductZzim.isChecked
         }
         Log.d("status", response.result?.status.toString())
-        ProductService(this).tryGetProductInfoBooks(productIdx)
     }
 
     override fun onPostZzimFailure(message: String) {

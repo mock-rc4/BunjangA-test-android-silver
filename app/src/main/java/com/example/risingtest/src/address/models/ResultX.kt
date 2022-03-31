@@ -15,5 +15,8 @@ data class ResultX(
     @SerializedName("phoneNumber")
     val phoneNumber: String?,
     @SerializedName("userIdx")
-    val userIdx: Int?
+    val userIdx: Int?,
+    @SerializedName("idx")
+    val idx: Int?
+
 )
