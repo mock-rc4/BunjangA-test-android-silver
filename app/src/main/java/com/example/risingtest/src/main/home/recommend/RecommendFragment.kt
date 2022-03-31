@@ -34,7 +34,6 @@ class RecommendFragment : BaseFragment<FragmentChildHomeRecommendBinding>(Fragme
 
     fun initBestSellerRecycelrView() {
         recyclerViewAdapter = RecommendRecyclerViewAdapter(this.requireActivity(),dataList)
-        Log.d("dkdkdk",dataList.toString())
         binding.rvRecommendList.adapter = recyclerViewAdapter
         binding.rvRecommendList.layoutManager = GridLayoutManager(context, 2)
         binding.rvRecommendList.addItemDecoration(ItemDecoration(this.requireActivity()))

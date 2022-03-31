@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.risingtest">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -41,6 +42,9 @@
         <activity android:name=".src.kakaoAddress.KakaoActivity"
             android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name=".src.main.register.RegisterProductActivity"/>
+        <activity android:name=".src.address.ModifyAddressActivity"/>
+        <activity android:name=".src.address.DeleteAddressActivity"
+            tools:ignore="Instantiatable" />
     </application>
 
 </manifest>

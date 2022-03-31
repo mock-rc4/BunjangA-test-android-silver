@@ -4,11 +4,6 @@ import com.example.risingtest.config.ApplicationClass
 import com.example.risingtest.src.address.models.AddressRequest
 import com.example.risingtest.src.address.models.AddressResponse
 import com.example.risingtest.src.address.models.GetAddressResponse
-import com.example.risingtest.src.deliveryToBuy.DeliveryInterface
-import com.example.risingtest.src.deliveryToBuy.models.DeliveryInfoResponse
-import com.example.risingtest.src.deliveryToBuy.models.DeliveryRequest
-import com.example.risingtest.src.product.ProductInterface
-import com.example.risingtest.src.product.models.ProductResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

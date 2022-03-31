@@ -33,12 +33,7 @@ class ApplicationClass : Application() {
 
     // 앱이 처음 생성되는 순간, SP를 새로 만들어주고, 레트로핏 인스턴스를 생성합니다.
     override fun onCreate() {
-//        UserLoginretrofitInstance()
-//        productInfoInstance()
-//        homeRecommendInstance()
         initRetrofitInstance()
-//        payMentInstance()
-//        ZZimInstance()
         super.onCreate()
         sSharedPreferences =
             applicationContext.getSharedPreferences("SOFTSQUARED_TEMPLATE_APP", MODE_PRIVATE)
@@ -66,45 +61,6 @@ class ApplicationClass : Application() {
             .build()
     }
 
-    // 유저 로그인
-//    private fun UserLoginretrofitInstance() {
-//        sRetrofit = Retrofit.Builder()
-//            .baseUrl(API_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    // 홈화면 추천상품
-//    private fun homeRecommendInstance(){
-//        sRetrofit = Retrofit.Builder()
-//            .baseUrl(API_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    // 제품 상세 페이지
-//    private fun productInfoInstance(){
-//        sRetrofit = Retrofit.Builder()
-//            .baseUrl(API_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    //  결제 페이지
-//    private fun payMentInstance(){
-//        sRetrofit = Retrofit.Builder()
-//            .baseUrl(API_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    // 찜하기
-//    private fun ZZimInstance(){
-//        sRetrofit = Retrofit.Builder()
-//            .baseUrl(API_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
 
 
 }

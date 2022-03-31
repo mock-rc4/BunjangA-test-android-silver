@@ -19,18 +19,18 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
 
         Handler(Looper.getMainLooper()).postDelayed({
+//
+//            if(jwtToken.isNullOrEmpty()){
+//                startActivity(Intent(this, LoginActivity::class.java))
+//                finish()
+//            }
+//            else {
+//                startActivity(Intent(this, MainActivity::class.java))
+//                finish()
+//            }
 
-            if(jwtToken.isNullOrEmpty()){
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-            else {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }
-
-//            startActivity(Intent(this, LoginActivity::class.java))
-//            finish()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }, 1500)
     }
 }

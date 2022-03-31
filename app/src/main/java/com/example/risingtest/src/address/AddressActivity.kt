@@ -1,7 +1,6 @@
 package com.example.risingtest.src.address
 
 import android.content.Intent
-import android.location.Address
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,20 +8,15 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.risingtest.config.BaseActivity
 import com.example.risingtest.databinding.ActivitySetAddressBinding
 import com.example.risingtest.src.address.models.AddressRequest
 import com.example.risingtest.src.address.models.AddressResponse
 import com.example.risingtest.src.address.models.GetAddressResponse
-import com.example.risingtest.src.deliveryToBuy.models.DeliveryInfoResponse
-import com.example.risingtest.src.kakaoAddress.KakaoActivity
-import com.example.risingtest.src.register.RegisterService
-import com.example.risingtest.src.register.models.PostSignUpRequest
 
-data class AddressData(var name : String, var address : String, var phoneNumber : String)
+data class AddressData(var name : String, var address : String,
+                       var phoneNumber : String, var userIdx : String, var addressDesc : String, var address_first : String)
 
 class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddressBinding::inflate), AddressActivityView {
 
@@ -45,6 +39,7 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
 
         Handler(Looper.getMainLooper()).postDelayed({
             AddressService(this).tryGetAddress()
+            Log.d("다시실행?","ektl")
 //            isEmpty()
         }, 1000)
 //        addressClick()
@@ -148,10 +143,9 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
 
     override fun onGetAddressSuccess(response: GetAddressResponse) {
         if(response.code==1000){
-
             for(index in response.result!!.listIterator()){
                 val address = index.address+" "+index.addressDesc
-                dataList.add(AddressData(index.name.toString(),address,index.phoneNumber.toString()))
+                dataList.add(AddressData(index.name.toString(),address,index.phoneNumber.toString(), index.userIdx.toString(), index.addressDesc.toString(), index.address.toString()))
             }
             initAddressRecycelrView()
         }else if(response.code==2021) {
@@ -161,4 +155,5 @@ class AddressActivity : BaseActivity<ActivitySetAddressBinding>(ActivitySetAddre
 
     override fun onGetAddressFailure(message: String) {
     }
+
 }
