@@ -1,11 +1,12 @@
 package com.example.risingtest.src.address
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.location.Address
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.Log
+import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
@@ -22,7 +23,19 @@ class DeleteAddressActivity(context: Context, addrxessIdx : String) : BaseActivi
 
     fun showDialog(){
         dialog.setContentView(R.layout.dialog_delete_address)
-        dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+
+//        dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+//        dialog.setCanceledOnTouchOutside(true)
+//        dialog.setCancelable(true)
+//        dialog.show()
+
+        val lp = WindowManager.LayoutParams()
+        lp.width=850
+        lp.height=580
+        dialog.window!!.setLayout(lp.width, lp.height)
+        // 모서리 둥글
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        //dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
         dialog.show()
