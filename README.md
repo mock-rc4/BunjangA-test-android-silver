@@ -60,8 +60,9 @@
 ## 완성 화면
 
 ### 💡 회원가입, 로그인
-![1](https://user-images.githubusercontent.com/43868540/162917076-dd45ab32-8130-4f8c-9e77-bd2ef3828f30.gif)
+![회원가입,로그인](https://user-images.githubusercontent.com/43868540/162917076-dd45ab32-8130-4f8c-9e77-bd2ef3828f30.gif)
 
-### 💡
+### 💡 홈화면
+![홈화면](https://user-images.githubusercontent.com/43868540/162923490-4f8cbfa8-c9f8-4cf1-9efe-99bf5fddd197.gif)
 
 
